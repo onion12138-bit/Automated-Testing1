@@ -202,8 +202,16 @@
     <target name="package-reports" depends="report" description="打包测试报告为ZIP文件">
         <echo>开始打包测试报告...</echo>
         
-        <!-- 执行打包脚本并获取ZIP文件路径 -->
-        <exec executable="bash" dir="${basedir}" outputproperty="package.zip.path" failonerror="false">
+        <!-- 生成时间戳 -->
+        <tstamp>
+            <format property="package.timestamp" pattern="yyyyMMdd_HHmmss" locale="en"/>
+        </tstamp>
+        
+        <!-- 设置ZIP文件路径 -->
+        <property name="package.zip.path" value="/tmp/JMeter_Report_${package.timestamp}.zip"/>
+        
+        <!-- 执行打包脚本 -->
+        <exec executable="bash" dir="${basedir}" failonerror="false">
             <arg value="package-reports.sh"/>
         </exec>
         
