@@ -110,12 +110,22 @@ pipeline {
         
         success {
             echo '✅ JMeter测试执行成功！'
-            // 可以添加成功通知，如邮件、Slack等
+            script {
+                sh '''
+                    echo "发送成功通知邮件..."
+                    ./send-email.sh "SUCCESS" "jmeter-results/jtl/*.jtl" "jmeter-results/html/*.html"
+                '''
+            }
         }
         
         failure {
             echo '❌ JMeter测试执行失败！'
-            // 可以添加失败通知
+            script {
+                sh '''
+                    echo "发送失败通知邮件..."
+                    ./send-email.sh "FAILED" "测试失败" "无报告"
+                '''
+            }
         }
         
         unstable {
