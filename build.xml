@@ -32,8 +32,8 @@
     </path>
     
     <!-- ========== 主任务 ========== -->
-    <target name="run" depends="git-update, clean, test, report, send-email"
-            description="更新代码 → 清理旧报告 → 执行测试 → 生成报告 → 发送邮件"/>
+    <target name="run" depends="git-update, clean, test, report, package-reports, send-email-with-attachment"
+            description="更新代码 → 清理旧报告 → 执行测试 → 生成报告 → 打包报告 → 发送邮件"/>
     
     <!-- ========== Git 更新任务 ========== -->
     <target name="git-update" description="从Git仓库拉取最新代码">
@@ -198,8 +198,51 @@
         <echo>详细报告: ${jmeter.result.detail.dir}/${detail.report.name}.html</echo>
     </target>
     
-    <!-- ========== 发送邮件任务 ========== -->
-    <target name="send-email" depends="report" description="发送测试结果邮件">
+    <!-- ========== 打包报告任务 ========== -->
+    <target name="package-reports" depends="report" description="打包测试报告为ZIP文件">
+        <echo>开始打包测试报告...</echo>
+        
+        <!-- 执行打包脚本并获取ZIP文件路径 -->
+        <exec executable="bash" dir="${basedir}" outputproperty="package.zip.path" failonerror="false">
+            <arg value="package-reports.sh"/>
+        </exec>
+        
+        <echo>报告打包完成: ${package.zip.path}</echo>
+    </target>
+    
+    <!-- ========== 发送邮件任务（支持附件）========== -->
+    <target name="send-email-with-attachment" depends="package-reports" description="发送包含报告附件的邮件">
+        <echo>准备发送包含附件的测试结果邮件...</echo>
+        
+        <!-- 设置邮件相关变量 -->
+        <property name="email.jtl.file" value="${jmeter.result.jtl.dir}/${summary.report.name}.jtl"/>
+        <property name="email.html.file" value="${jmeter.result.html.dir}/${summary.report.name}.html"/>
+        
+        <!-- 检查测试是否成功 -->
+        <condition property="test.status" value="SUCCESS" else="FAILED">
+            <available file="${email.jtl.file}"/>
+        </condition>
+        
+        <!-- 执行邮件发送脚本 -->
+        <echo>发送邮件到: 2335327949@qq.com</echo>
+        <echo>测试状态: ${test.status}</echo>
+        <echo>JTL文件: ${email.jtl.file}</echo>
+        <echo>HTML报告: ${email.html.file}</echo>
+        <echo>ZIP附件: ${package.zip.path}</echo>
+        
+        <exec executable="bash" dir="${basedir}" failonerror="false">
+            <arg value="send-email-with-attachment.sh"/>
+            <arg value="${test.status}"/>
+            <arg value="${email.jtl.file}"/>
+            <arg value="${email.html.file}"/>
+            <arg value="${package.zip.path}"/>
+        </exec>
+        
+        <echo>包含附件的邮件发送任务完成！</echo>
+    </target>
+    
+    <!-- ========== 发送邮件任务（兼容旧版本）========== -->
+    <target name="send-email" depends="report" description="发送测试结果邮件（无附件）">
         <echo>准备发送测试结果邮件...</echo>
         
         <!-- 设置邮件相关变量 -->
