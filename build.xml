@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="jmeter-ant-automation" default="run" basedir=".">
+    
+    <!-- ========== 环境配置 ========== -->
+    <property environment="env"/>  <!-- 加载系统环境变量 -->
+    
+    <!-- 时间戳生成 -->
+    <tstamp>
+        <format property="timestamp" pattern="yyyy-MM-dd_HH-mm" locale="en"/>
+    </tstamp>
+    
+    <!-- ========== 路径配置 ========== -->
+    <!-- JMeter 安装路径 -->
+    <property name="jmeter.home" value="${basedir}/apache-jmeter-5.4.3"/>
+    
+    <!-- 测试脚本路径 -->
+    <property name="jmeter.test.dir" value="${basedir}/jmeter-script"/>
+    
+    <!-- 报告输出路径 -->
+    <property name="jmeter.result.jtl.dir" value="${basedir}/jmeter-results/jtl"/>
+    <property name="jmeter.result.html.dir" value="${basedir}/jmeter-results/html"/>
+    <property name="jmeter.result.detail.dir" value="${basedir}/jmeter-results/detail"/>
+    
+    <!-- 报告名称 -->
+    <property name="summary.report.name" value="JMeter-Summary-Report-${timestamp}"/>
+    <property name="detail.report.name" value="JMeter-Detail-Report-${timestamp}"/>
+    
+    <!-- ========== Classpath 配置 ========== -->
+    <path id="xslt.classpath">
+        <fileset dir="${jmeter.home}/lib" includes="xalan*.jar"/>
+        <fileset dir="${jmeter.home}/lib" includes="serializer*.jar"/>
+    </path>
+    
+    <!-- ========== 主任务 ========== -->
+    <target name="run" depends="git-update, clean, test, report"
+            description="更新代码 → 清理旧报告 → 执行测试 → 生成报告"/>
+    
+    <!-- ========== Git 更新任务 ========== -->
+    <target name="git-update" description="从Git仓库拉取最新代码">
+        <echo>正在从Git仓库拉取最新代码...</echo>
+        <exec executable="git" dir="${basedir}" failonerror="true">
+            <arg value="pull"/>
+            <arg value="origin"/>
+            <arg value="master"/>
+        </exec>
+        <echo>代码更新完成！</echo>
+    </target>
+    
+    <!-- ========== 清理旧报告 ========== -->
+    <target name="clean" description="删除旧的测试报告">
+        <echo>清理旧报告...</echo>
+        <delete dir="${jmeter.result.jtl.dir}"/>
+        <delete dir="${jmeter.result.html.dir}"/>
+        <delete dir="${jmeter.result.detail.dir}"/>
+        <mkdir dir="${jmeter.result.jtl.dir}"/>
+        <mkdir dir="${jmeter.result.html.dir}"/>
+        <mkdir dir="${jmeter.result.detail.dir}"/>
+    </target>
+    
+    <!-- ========== 执行 JMeter 测试 ========== -->
+    <target name="test" description="运行 JMeter 测试">
+        <echo>执行 JMeter 测试...</echo>
+        
+        <!-- 定义 JMeter Ant 任务 -->
+        <taskdef name="jmeter" 
+                 classname="org.programmerplanet.ant.taskdefs.jmeter.JMeterTask">
+            <classpath>
+                <fileset dir="${jmeter.home}/lib" includes="ant-jmeter-*.jar"/>
+            </classpath>
+        </taskdef>
+        
+        <!-- 执行测试 -->
+        <jmeter jmeterhome="${jmeter.home}"
+                resultlog="${jmeter.result.jtl.dir}/${summary.report.name}.jtl">
+            
+            <!-- 设置 JVM 参数 -->
+            <jvmarg value="-Xms1024m"/>
+            <jvmarg value="-Xmx4096m"/>
+            <jvmarg value="-Djava.awt.headless=true"/>
+
+            <!-- 添加调试参数 -->
+            <property name="log_level.jmeter" value="DEBUG"/>
+    	    <property name="log_level.jmeter.junit" value="DEBUG"/>
+            
+            <!-- 添加这些属性强制保存统计字段 -->
+    	    <property name="jmeter.save.saveservice.latency" value="true"/>
+            <property name="jmeter.save.saveservice.connect_time" value="true"/>
+            <property name="jmeter.save.saveservice.bytes" value="true"/>
+            <property name="jmeter.save.saveservice.sent_bytes" value="true"/>
+            <property name="jmeter.save.saveservice.thread_counts" value="true"/>
+
+            <!-- 测试计划配置 -->
+            <property name="jmeter.save.saveservice.output_format" value="xml"/>
+            <property name="jmeter.save.saveservice.response_data" value="true"/>
+            <property name="jmeter.save.saveservice.samplerData" value="true"/>
+            
+            <!-- 指定测试脚本 -->
+            <testplans dir="${jmeter.test.dir}" includes="*.jmx"/>
+            
+            <!-- 删除 generateReport 标签 -->
+        </jmeter>
+    </target>
+    
+    <!-- ========== 生成报告 ========== -->
+    <target name="report" depends="test" description="生成 HTML 报告">
+        <echo>生成测试报告...</echo>
+
+        <!-- 生成汇总报告 -->
+        <xslt in="${jmeter.result.jtl.dir}/${summary.report.name}.jtl"
+               out="${jmeter.result.html.dir}/${summary.report.name}.html"
+               style="${jmeter.home}/extras/jmeter-results-report_21.xsl">
+
+            <!-- 添加这些参数解决 NaN -->
+
+            <param name="minValue" expression="0"/>
+            <param name="maxValue" expression="10000"/>
+
+
+            <param name="showData" expression="y"/>
+        </xslt>
+        
+        <!-- 生成详细报告 -->
+        <xslt in="${jmeter.result.jtl.dir}/${summary.report.name}.jtl"
+               out="${jmeter.result.detail.dir}/${detail.report.name}.html"
+               style="${jmeter.home}/extras/jmeter.results.shanhe.me.xsl">
+
+            <!-- 添加这些参数解决 NaN -->
+
+            <param name="minValue" expression="0"/>
+            <param name="maxValue" expression="10000"/>
+
+
+            <param name="showData" expression="y"/>
+        </xslt>
+        
+        <!-- 复制报告所需资源 -->
+        <copy todir="${jmeter.result.html.dir}">
+            <fileset dir="${jmeter.home}/extras">
+                <include name="*.png"/>
+                <include name="*.css"/>
+            </fileset>
+        </copy>
+        
+        <copy todir="${jmeter.result.detail.dir}">
+            <fileset dir="${jmeter.home}/extras">
+                <include name="*.png"/>
+                <include name="*.css"/>
+            </fileset>
+        </copy>
+
+
+
+
+        
+        <echo>报告生成完成！</echo>
+        <echo>汇总报告: ${jmeter.result.html.dir}/${summary.report.name}.html</echo>
+        <echo>详细报告: ${jmeter.result.detail.dir}/${detail.report.name}.html</echo>
+    </target>
+</project>
