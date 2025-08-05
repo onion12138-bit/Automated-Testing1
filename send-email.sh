@@ -19,8 +19,9 @@ if [ -f "$JTL_FILE" ]; then
     # 提取测试统计（简化版本）
     TOTAL_SAMPLES=$(grep -c "sample" "$JTL_FILE" 2>/dev/null || echo "0")
     ERROR_COUNT=$(grep "success=\"false\"" "$JTL_FILE" | wc -l 2>/dev/null || echo "0")
+    ERROR_COUNT=$(echo $ERROR_COUNT | tr -d ' ')  # 去除空格
     
-    if [ "$TOTAL_SAMPLES" -gt 0 ]; then
+    if [ "$TOTAL_SAMPLES" -gt 0 ] 2>/dev/null; then
         ERROR_RATE=$(echo "scale=2; $ERROR_COUNT * 100 / $TOTAL_SAMPLES" | bc 2>/dev/null || echo "0")
     else
         ERROR_RATE="0"
