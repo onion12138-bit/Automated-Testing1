@@ -37,13 +37,54 @@
     
     <!-- ========== Git 更新任务 ========== -->
     <target name="git-update" description="从Git仓库拉取最新代码">
-        <echo>正在从Git仓库拉取最新代码...</echo>
+        <echo>正在检查Git仓库状态...</echo>
+        
+        <!-- 检查是否有远程仓库 -->
+        <exec executable="git" dir="${basedir}" outputproperty="git.remotes" failonerror="false">
+            <arg value="remote"/>
+        </exec>
+        
+        <!-- 如果有远程仓库则拉取，否则跳过 -->
+        <condition property="has.remote">
+            <not>
+                <equals arg1="${git.remotes}" arg2=""/>
+            </not>
+        </condition>
+        
+        <antcall target="git-pull"/>
+        <antcall target="git-status"/>
+    </target>
+    
+    <!-- Git拉取子任务 -->
+    <target name="git-pull" if="has.remote">
+        <echo>检测到远程仓库，正在拉取最新代码...</echo>
         <exec executable="git" dir="${basedir}" failonerror="true">
             <arg value="pull"/>
             <arg value="origin"/>
             <arg value="master"/>
         </exec>
         <echo>代码更新完成！</echo>
+    </target>
+    
+    <!-- Git状态检查 -->
+    <target name="git-status">
+        <echo>Git仓库状态:</echo>
+        <exec executable="git" dir="${basedir}" failonerror="false">
+            <arg value="log"/>
+            <arg value="--oneline"/>
+            <arg value="-1"/>
+        </exec>
+        <condition property="no.remote">
+            <not>
+                <isset property="has.remote"/>
+            </not>
+        </condition>
+        <antcall target="git-local-status"/>
+    </target>
+    
+    <!-- 本地仓库状态 -->
+    <target name="git-local-status" if="no.remote">
+        <echo>本地Git仓库，跳过远程拉取操作</echo>
     </target>
     
     <!-- ========== 清理旧报告 ========== -->
