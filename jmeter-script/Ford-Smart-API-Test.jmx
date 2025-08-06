@@ -331,7 +331,7 @@ if (responseData.contains("\"code\":200") || responseData.contains("\"code\":0")
     
     // 检查是否获取到质检规则ID
     String ruleId = vars.get("FIRST_QUALITY_RULE_ID");
-    if (ruleId != null && !ruleId.equals("NO_RULE_ID")) {
+    if (ruleId != null &amp;&amp; !ruleId.equals("NO_RULE_ID")) {
         log.info("成功获取第一个质检规则ID: " + ruleId);
     } else {
         log.warn("未能获取到质检规则ID，可能列表为空");
@@ -426,7 +426,7 @@ if (responseData.contains("\"code\":200") || responseData.contains("\"code\":0")
     
     // 获取下架的规则ID
     String ruleId = vars.get("FIRST_QUALITY_RULE_ID");
-    if (ruleId != null && !ruleId.equals("NO_RULE_ID")) {
+    if (ruleId != null &amp;&amp; !ruleId.equals("NO_RULE_ID")) {
         log.info("成功下架质检规则ID: " + ruleId);
     } else {
         log.warn("下架操作完成，但规则ID未知");
