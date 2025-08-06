@@ -354,7 +354,7 @@ if (responseData.contains("\"code\":200") || responseData.contains("\"code\":0")
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{"id":${FIRST_QUALITY_RULE_ID},"status":0}</stringProp>
+                <stringProp name="Argument.value">{&quot;createBy&quot;:&quot;1&quot;,&quot;createTime&quot;:&quot;2025-04-08 15:05:09&quot;,&quot;updateBy&quot;:&quot;1&quot;,&quot;updateTime&quot;:&quot;2025-08-06 17:20:08&quot;,&quot;delFlag&quot;:&quot;0&quot;,&quot;id&quot;:${FIRST_QUALITY_RULE_ID},&quot;ruleName&quot;:&quot;销售顾问&quot;,&quot;ruleState&quot;:&quot;n&quot;,&quot;rulePivotalScore&quot;:&quot;100&quot;,&quot;ruleRiskScore&quot;:&quot;100&quot;,&quot;ancestors&quot;:&quot;0,100&quot;,&quot;isActivity&quot;:&quot;N&quot;,&quot;beginVerbal&quot;:&quot;先生/女士，您好，欢迎来到福特纵横（经销商名字）纵享空间，我是福特纵横伙伴XX，您也可以叫我XX，请问您怎么称呼？。&quot;,&quot;endVerbal&quot;:&quot;您慢走，感谢您对福特纵横的信任和支持，我们将持续为您提供高品质的服务以及值得信赖的用车体验，后续有任何问题和需求，您都可以随时与我联系， &quot;,&quot;deptIds&quot;:&quot;&quot;,&quot;roleIds&quot;:&quot;&quot;,&quot;validTime&quot;:&quot;&quot;,&quot;loseTime&quot;:&quot;&quot;}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
