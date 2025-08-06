@@ -235,6 +235,213 @@ if (responseData.contains("\"code\":200") || responseData.contains("\"code\":0")
           <hashTree/>
         </hashTree>
 
+        <!-- 接口3: 获取质检规则列表 -->
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="3-获取质检规则列表" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="pageNum" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">1</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">pageNum</stringProp>
+              </elementProp>
+              <elementProp name="pageSize" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">10</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">pageSize</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/backend/business/qualityRule/list</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <!-- HTTP信息头管理器 - 添加Authorization -->
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="添加Token到Header-质检规则" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Authorization</stringProp>
+                <stringProp name="Header.value">Bearer ${TOKEN}</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          
+          <!-- JSON提取器-提取第一个质检规则ID -->
+          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="提取第一个质检规则ID" enabled="true">
+            <stringProp name="JSONPostProcessor.referenceNames">FIRST_QUALITY_RULE_ID</stringProp>
+            <stringProp name="JSONPostProcessor.jsonPathExprs">$.data.rows[0].id</stringProp>
+            <stringProp name="JSONPostProcessor.match_numbers">1</stringProp>
+            <stringProp name="JSONPostProcessor.defaultValues">NO_RULE_ID</stringProp>
+          </JSONPostProcessor>
+          <hashTree/>
+          
+          <!-- 响应断言 -->
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="质检规则列表响应断言" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="3059182">code</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message">质检规则列表接口应该返回code字段</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          
+          <!-- BeanShell断言 - 验证质检规则列表响应 -->
+          <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="验证质检规则列表响应" enabled="true">
+            <stringProp name="BeanShellAssertion.query">
+// 验证HTTP状态码
+String responseCode = SampleResult.getResponseCode();
+String responseData = SampleResult.getResponseDataAsString();
+
+log.info("质检规则列表接口状态码: " + responseCode);
+log.info("质检规则列表接口响应: " + responseData);
+
+if (!responseCode.equals("200")) {
+    Failure = true;
+    FailureMessage = "质检规则列表接口返回状态码: " + responseCode + ", 期望: 200";
+    return;
+}
+
+// 检查是否是401未授权错误
+if (responseData.contains("\"code\":401")) {
+    Failure = true;
+    FailureMessage = "质检规则列表接口返回401未授权，Token可能无效或已过期";
+    return;
+}
+
+// 检查是否成功返回数据
+if (responseData.contains("\"code\":200") || responseData.contains("\"code\":0")) {
+    log.info("质检规则列表接口调用成功");
+    
+    // 检查是否获取到质检规则ID
+    String ruleId = vars.get("FIRST_QUALITY_RULE_ID");
+    if (ruleId != null && !ruleId.equals("NO_RULE_ID")) {
+        log.info("成功获取第一个质检规则ID: " + ruleId);
+    } else {
+        log.warn("未能获取到质检规则ID，可能列表为空");
+    }
+} else {
+    log.warn("质检规则列表接口可能返回了错误: " + responseData);
+}
+            </stringProp>
+            <stringProp name="BeanShellAssertion.filename"></stringProp>
+            <stringProp name="BeanShellAssertion.parameters"></stringProp>
+            <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
+          </BeanShellAssertion>
+          <hashTree/>
+        </hashTree>
+
+        <!-- 接口4: 下架质检规则 -->
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="4-下架质检规则" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{"id":${FIRST_QUALITY_RULE_ID},"status":0}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/backend/business/qualityRule</stringProp>
+          <stringProp name="HTTPSampler.method">PUT</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <!-- HTTP信息头管理器 - 添加Authorization -->
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="添加Token到Header-下架" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Authorization</stringProp>
+                <stringProp name="Header.value">Bearer ${TOKEN}</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          
+          <!-- 响应断言 -->
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="下架质检规则响应断言" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="3059183">code</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message">下架质检规则接口应该返回code字段</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          
+          <!-- BeanShell断言 - 验证下架质检规则响应 -->
+          <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="验证下架质检规则响应" enabled="true">
+            <stringProp name="BeanShellAssertion.query">
+// 验证HTTP状态码
+String responseCode = SampleResult.getResponseCode();
+String responseData = SampleResult.getResponseDataAsString();
+
+log.info("下架质检规则接口状态码: " + responseCode);
+log.info("下架质检规则接口响应: " + responseData);
+
+if (!responseCode.equals("200")) {
+    Failure = true;
+    FailureMessage = "下架质检规则接口返回状态码: " + responseCode + ", 期望: 200";
+    return;
+}
+
+// 检查是否是401未授权错误
+if (responseData.contains("\"code\":401")) {
+    Failure = true;
+    FailureMessage = "下架质检规则接口返回401未授权，Token可能无效或已过期";
+    return;
+}
+
+// 检查是否成功返回数据
+if (responseData.contains("\"code\":200") || responseData.contains("\"code\":0")) {
+    log.info("下架质检规则接口调用成功");
+    
+    // 获取下架的规则ID
+    String ruleId = vars.get("FIRST_QUALITY_RULE_ID");
+    if (ruleId != null && !ruleId.equals("NO_RULE_ID")) {
+        log.info("成功下架质检规则ID: " + ruleId);
+    } else {
+        log.warn("下架操作完成，但规则ID未知");
+    }
+} else {
+    log.warn("下架质检规则接口可能返回了错误: " + responseData);
+}
+            </stringProp>
+            <stringProp name="BeanShellAssertion.filename"></stringProp>
+            <stringProp name="BeanShellAssertion.parameters"></stringProp>
+            <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
+          </BeanShellAssertion>
+          <hashTree/>
+        </hashTree>
+
         <!-- 查看结果树 -->
         <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="查看结果树" enabled="true">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
