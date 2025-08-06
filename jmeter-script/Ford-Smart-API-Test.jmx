@@ -79,7 +79,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{"username":"admin","password":"9!1w&flQf#Vw","code":"1","uuid":"19ab77713c7444d7a8db63951aacf9d9","loginType":"PC"}</stringProp>
+                <stringProp name="Argument.value">{"username":"admin","password":"9!1w&amp;flQf&#35;Vw","code":"1","uuid":"19ab77713c7444d7a8db63951aacf9d9","loginType":"PC"}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
