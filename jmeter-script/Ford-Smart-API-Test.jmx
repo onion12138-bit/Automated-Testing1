@@ -334,7 +334,24 @@ if (responseData.contains("\"code\":200") || responseData.contains("\"code\":0")
     if (ruleId != null &amp;&amp; !ruleId.equals("NO_RULE_ID")) {
         log.info("成功获取第一个质检规则ID: " + ruleId);
     } else {
-        log.warn("未能获取到质检规则ID，可能列表为空");
+        log.warn("JSON提取器未获取到ID，尝试手动提取...");
+        // 手动从响应中提取第一个规则ID
+        if (responseData.contains("\"id\":")) {
+            int startIndex = responseData.indexOf("\"id\":") + 5;
+            int endIndex = responseData.indexOf(",", startIndex);
+            if (endIndex == -1) {
+                endIndex = responseData.indexOf("}", startIndex);
+            }
+            if (startIndex > 5 &amp;&amp; endIndex > startIndex) {
+                String extractedId = responseData.substring(startIndex, endIndex).trim();
+                vars.put("FIRST_QUALITY_RULE_ID", extractedId);
+                log.info("手动提取到第一个质检规则ID: " + extractedId);
+            } else {
+                log.error("无法手动提取质检规则ID");
+            }
+        } else {
+            log.error("响应中未找到id字段");
+        }
     }
 } else {
     log.warn("质检规则列表接口可能返回了错误: " + responseData);
