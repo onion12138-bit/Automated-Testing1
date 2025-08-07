@@ -32,8 +32,8 @@ case "$1" in
         echo "🚀 启动定时任务..."
         echo "25 19 * * * $SCRIPT_PATH" | crontab -
         if [ $? -eq 0 ]; then
-            echo "✅ 定时任务启动成功"
-            echo "📅 执行时间: 每天 19:25"
+                    echo "✅ 定时任务启动成功"
+        echo "📅 执行时间: 每天 10:35"
             echo "📧 收件人: 2335327949@qq.com"
         else
             echo "❌ 定时任务启动失败"
@@ -87,10 +87,10 @@ case "$1" in
         echo "✅ 脚本权限设置完成"
         
         # 设置定时任务
-        echo "25 19 * * * $SCRIPT_PATH" | crontab -
+        echo "35 10 * * * $SCRIPT_PATH" | crontab -
         if [ $? -eq 0 ]; then
             echo "✅ 定时任务安装成功"
-            echo "📅 执行时间: 每天 19:25"
+            echo "📅 执行时间: 每天 10:35"
             echo "📧 收件人: 2335327949@qq.com"
             echo "📁 脚本路径: $SCRIPT_PATH"
         else
@@ -116,7 +116,7 @@ case "$1" in
         echo "  install - 安装定时任务系统"
         echo ""
         echo "📅 定时任务配置:"
-        echo "  执行时间: 每天 19:25"
+        echo "  执行时间: 每天 10:35"
         echo "  收件人: 2335327949@qq.com"
         echo "  脚本: $SCRIPT_PATH"
         ;;
