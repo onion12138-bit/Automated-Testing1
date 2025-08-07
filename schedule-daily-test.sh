@@ -61,10 +61,19 @@ if [ $? -eq 0 ]; then
         # 检查mutt是否可用
         if command -v mutt &> /dev/null; then
             echo "📊 Ford Smart Badge 每日自动化测试报告 - $(date '+%Y-%m-%d')" | mutt -s "📊 Ford Smart Badge 每日测试报告 - $(date '+%Y-%m-%d')" -a "$LATEST_ZIP" -- 2335327949@qq.com
-            if [ $? -eq 0 ]; then
+            MAIL_RESULT=$?
+            if [ $MAIL_RESULT -eq 0 ]; then
                 echo "✅ 邮件发送成功 (使用mutt)" >> "$LOG_FILE"
             else
-                echo "❌ 邮件发送失败" >> "$LOG_FILE"
+                echo "❌ 邮件发送失败 (mutt退出码: $MAIL_RESULT)" >> "$LOG_FILE"
+                # 尝试使用mail作为备用
+                echo "⚠️ 尝试使用mail作为备用..." >> "$LOG_FILE"
+                echo "📊 Ford Smart Badge 每日自动化测试报告 - $(date '+%Y-%m-%d')" | mail -s "📊 Ford Smart Badge 每日测试报告 - $(date '+%Y-%m-%d')" 2335327949@qq.com
+                if [ $? -eq 0 ]; then
+                    echo "✅ 邮件发送成功 (使用mail，无附件)" >> "$LOG_FILE"
+                else
+                    echo "❌ 邮件发送失败 (mail也失败)" >> "$LOG_FILE"
+                fi
             fi
         else
             echo "⚠️ mutt不可用，尝试使用mail..." >> "$LOG_FILE"
