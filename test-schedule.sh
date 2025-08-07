@@ -72,7 +72,10 @@ fi
 # 显示今天的执行时间
 echo ""
 echo "📅 今天的执行时间:"
-echo "🕐 10:35 - 定时任务执行时间"
+# 加载配置文件
+source "$(dirname "$0")/schedule-config.sh"
+
+echo "🕐 $SCHEDULE_HOUR:$SCHEDULE_MINUTE - 定时任务执行时间"
 echo "📧 收件人: 2335327949@qq.com"
 
 # 显示最近的执行记录

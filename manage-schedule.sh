@@ -6,6 +6,8 @@
 # 功能: 管理每日自动化测试的定时任务
 # ==========================================
 
+# 加载配置文件
+source "$(dirname "$0")/schedule-config.sh"
 WORKSPACE_DIR="/Users/onion/Desktop/JmeterMac2"
 SCRIPT_PATH="$WORKSPACE_DIR/schedule-daily-test.sh"
 
@@ -33,7 +35,7 @@ case "$1" in
         echo "25 19 * * * $SCRIPT_PATH" | crontab -
         if [ $? -eq 0 ]; then
                     echo "✅ 定时任务启动成功"
-        echo "📅 执行时间: 每天 10:35"
+        echo "📅 执行时间: 每天 $SCHEDULE_HOUR:$SCHEDULE_MINUTE"
             echo "📧 收件人: 2335327949@qq.com"
         else
             echo "❌ 定时任务启动失败"
@@ -87,10 +89,10 @@ case "$1" in
         echo "✅ 脚本权限设置完成"
         
         # 设置定时任务
-        echo "35 10 * * * $SCRIPT_PATH" | crontab -
+        echo "$SCHEDULE_EXPRESSION $SCRIPT_PATH" | crontab -
         if [ $? -eq 0 ]; then
             echo "✅ 定时任务安装成功"
-            echo "📅 执行时间: 每天 10:35"
+            echo "📅 执行时间: 每天 $SCHEDULE_HOUR:$SCHEDULE_MINUTE"
             echo "📧 收件人: 2335327949@qq.com"
             echo "📁 脚本路径: $SCRIPT_PATH"
         else
@@ -116,7 +118,7 @@ case "$1" in
         echo "  install - 安装定时任务系统"
         echo ""
         echo "📅 定时任务配置:"
-        echo "  执行时间: 每天 10:35"
+        echo "  执行时间: 每天 $SCHEDULE_HOUR:$SCHEDULE_MINUTE"
         echo "  收件人: 2335327949@qq.com"
         echo "  脚本: $SCRIPT_PATH"
         ;;
