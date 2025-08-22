@@ -1,0 +1,22 @@
+# Ford Smart Badge 每日自动化测试定时任务
+# 执行时间: 每天上午9点、下午14:30和下午15:00
+# 执行脚本: schedule-daily-test.sh (已配置Python邮件发送)
+
+# 环境变量设置
+SHELL=/bin/bash
+PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/bin:/usr/bin:/sbin:/usr/sbin
+HOME=/Users/onion
+LANG=en_US.UTF-8
+LC_ALL=en_US.UTF-8
+
+# 测试定时任务 - 15:26执行一次
+26 15 * * * cd /Users/onion/Desktop/JmeterMac2 && /bin/bash /Users/onion/Desktop/JmeterMac2/schedule-daily-test.sh >> /Users/onion/Desktop/JmeterMac2/cron-execution.log 2>&1
+
+# 上午9点执行
+0 9 * * * cd /Users/onion/Desktop/JmeterMac2 && /bin/bash /Users/onion/Desktop/JmeterMac2/schedule-daily-test.sh >> /Users/onion/Desktop/JmeterMac2/cron-execution.log 2>&1
+
+# 下午14:30执行
+30 14 * * * cd /Users/onion/Desktop/JmeterMac2 && /bin/bash /Users/onion/Desktop/JmeterMac2/schedule-daily-test.sh >> /Users/onion/Desktop/JmeterMac2/cron-execution.log 2>&1
+
+# 下午15:00执行
+0 15 * * * cd /Users/onion/Desktop/JmeterMac2 && /bin/bash /Users/onion/Desktop/JmeterMac2/schedule-daily-test.sh >> /Users/onion/Desktop/JmeterMac2/cron-execution.log 2>&1

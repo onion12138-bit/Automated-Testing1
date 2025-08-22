@@ -58,39 +58,29 @@ if [ $? -eq 0 ]; then
         # 发送邮件通知
         echo "📧 发送邮件通知..." >> "$LOG_FILE"
         
-        # 检查mutt是否可用
-        if command -v mutt &> /dev/null; then
-            echo "📊 Ford Smart Badge 每日自动化测试报告 - $(date '+%Y-%m-%d')" | mutt -s "📊 Ford Smart Badge 每日测试报告 - $(date '+%Y-%m-%d')" -a "$LATEST_ZIP" -- 2335327949@qq.com
+        # 使用Python邮件发送脚本
+        if [ -f "$WORKSPACE_DIR/send-email-python.py" ]; then
+            echo "🐍 使用Python脚本发送邮件..." >> "$LOG_FILE"
+            
+            cd "$WORKSPACE_DIR"
+            python3 send-email-python.py
             MAIL_RESULT=$?
+            
             if [ $MAIL_RESULT -eq 0 ]; then
-                echo "✅ 邮件发送成功 (使用mutt)" >> "$LOG_FILE"
+                echo "✅ 邮件发送成功" >> "$LOG_FILE"
             else
-                echo "❌ 邮件发送失败 (mutt退出码: $MAIL_RESULT)" >> "$LOG_FILE"
-                # 尝试使用mail作为备用
-                echo "⚠️ 尝试使用mail作为备用..." >> "$LOG_FILE"
-                echo "📊 Ford Smart Badge 每日自动化测试报告 - $(date '+%Y-%m-%d')" | mail -s "📊 Ford Smart Badge 每日测试报告 - $(date '+%Y-%m-%d')" 2335327949@qq.com
-                if [ $? -eq 0 ]; then
-                    echo "✅ 邮件发送成功 (使用mail，无附件)" >> "$LOG_FILE"
-                else
-                    echo "❌ 邮件发送失败 (mail也失败)" >> "$LOG_FILE"
-                fi
+                echo "❌ Python邮件发送失败" >> "$LOG_FILE"
             fi
         else
-            echo "⚠️ mutt不可用，尝试使用mail..." >> "$LOG_FILE"
-            echo "📊 Ford Smart Badge 每日自动化测试报告 - $(date '+%Y-%m-%d')" | mail -s "📊 Ford Smart Badge 每日测试报告 - $(date '+%Y-%m-%d')" 2335327949@qq.com
-            if [ $? -eq 0 ]; then
-                echo "✅ 邮件发送成功 (使用mail，无附件)" >> "$LOG_FILE"
-            else
-                echo "❌ 邮件发送失败" >> "$LOG_FILE"
-            fi
+            echo "❌ 错误：Python邮件脚本不存在" >> "$LOG_FILE"
+            echo "❌ 邮件发送失败：找不到send-email-python.py文件" >> "$LOG_FILE"
         fi
     else
         echo "⚠️ 未找到ZIP报告文件" >> "$LOG_FILE"
     fi
 else
     echo "❌ Ant构建执行失败" >> "$LOG_FILE"
-    # 发送失败通知邮件
-    echo "❌ Ford Smart Badge 每日自动化测试失败 - $(date '+%Y-%m-%d')" | mail -s "❌ Ford Smart Badge 每日测试失败 - $(date '+%Y-%m-%d')" 2335327949@qq.com
+    echo "❌ 测试失败，请检查日志文件：$LOG_FILE" >> "$LOG_FILE"
 fi
 
 # 记录完成时间

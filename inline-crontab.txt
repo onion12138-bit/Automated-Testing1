@@ -1,0 +1,2 @@
+# 使用内联命令的定时任务 - 每天17:23执行
+23 17 * * * cd /Users/onion/Desktop/JmeterMac2 && echo "=== 开始执行每日自动化测试 - $(date) ===" >> /Users/onion/Desktop/JmeterMac2/cron-execution.log 2>&1 && ant run >> /Users/onion/Desktop/JmeterMac2/cron-execution.log 2>&1 && echo "=== 每日自动化测试完成 - $(date) ===" >> /Users/onion/Desktop/JmeterMac2/cron-execution.log 2>&1 

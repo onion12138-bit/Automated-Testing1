@@ -1,0 +1,397 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en"><head><META http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta content="shanhe.me" name="Author"><title>JMeter Test Results</title><style type="text/css">
+            
+                * { margin: 0; padding: 0 }
+                html, body { width: 100%; height: 100%; background: #b4b4b4; font-size: 12px }
+                table { border: none; border-collapse: collapse; table-layout: fixed }
+                td { vertical-align: baseline; font-size: 12px }
+                #left-panel { position: absolute; left: 0; top: 0; bottom: 0; width: 300px; overflow: auto; background: #dee4ea }
+                #left-panel li.navigation { font-weight: bold; cursor: default; color: #9da8b2; line-height: 18px; background-position: 12px 5px; background-repeat: no-repeat; padding: 0 0 0 25px; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAICAYAAAArzdW1AAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sDEBQqGbO7BEcAAAAdaVRYdENvbW1lbnQAAAAAAENyZWF0ZWQgd2l0aCBHSU1QZC5lBwAAAKRJREFUGNN1zM0KgkAYheF3RvtXSsGyWhRNaILS7bdt11W0KgJvoPwZp0UlBPUtz3nOJw7Hk7necv5dOA2Qaazo2vZP0LEt9olCVtqQROufKNmuqBuBNAYW4QzXGX6B0bDPcjGnMQYJ8Cg12U59oSzaUJQa4IUAXMclDHwAAn/MxPMw765FZd2QRgopBWmsKCrdfhXnS/4ZYElBXdyxewN008Y8AephLAkqz613AAAAAElFTkSuQmCC) }
+                #left-panel li.success { color: #565b60 }
+                #left-panel li.failure { color: red }
+                #left-panel li { list-style: none; color: black; cursor: pointer }
+                #left-panel li.selected { background-repeat: repeat-x; color: white; background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAUCAYAAABMDlehAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sDEBQxLTs5O2gAAAAdaVRYdENvbW1lbnQAAAAAAENyZWF0ZWQgd2l0aCBHSU1QZC5lBwAAAEdJREFUCNc1y7ERgEAMA0GNUhIyGqM2uqKgtyWZhE9v53A/7/A6D7BkMDNgy2AroB2wHTCZv5UMOgFLG1bvd7XBckBlwCXjA5wMOF5iOX/MAAAAAElFTkSuQmCC) }
+                #left-panel div { line-height: 20px; background-position: 25px 3px; background-repeat: no-repeat; padding: 0 0 0 45px }
+                #left-panel div.success { background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAOCAYAAADwikbvAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sDEBULEEc6wzcAAAAdaVRYdENvbW1lbnQAAAAAAENyZWF0ZWQgd2l0aCBHSU1QZC5lBwAAAiNJREFUKM99kktIVGEYhp/jzJl08lI6logp2Y2EFkbtaqlFROsWrlq4ioJWQRs37VoUVItWkYEVRGSBlhleCpywDEWxTEuxcURTZ6YzxzP/5WshCOHUt36f93kXnyMi5Lsnb4clI4s4fhkXzp5w8mWcfHBvfEpUxVdCUUU6lUPNHuD86cYtBQX5GhPrM7hRg7GaSDRg2vuUd90WuOPVsOyqy6FFo2yOQHlU1S9z9dZT+S/8I7GCLlkAN4eyAf56mnT6Fy1HLnGuuYa++MS/4e74qMRqfXLaJ9BpfnsrLC0m2BYuoqwUbj/+274JD43OEqmexwvW8NUKXnaZtVSS1pNtAAyOvyC6v48HnUNb4Z7PH8UtTlIQWA5tb2RhYY7kz3l2FleytJYg/qWb8t2KZ/0PN+1hgI6uEUr2jpHKpGlquExVaS0VbjUZL7WxaqIXK6ADQ0n9GNfv9XCttWnD/O57t0TKFklnF3g5fJ/seoaa2D4O1x0F4PlgO9oIftbgFgYMfLgjACGqj0vlsddoUnj+Kt/mxunq72RP+UGqYjWMTA7R+b6dUCSEGEF5hoJQip6BaFs4HJtCyRrKs6wHCovDip/kys0WWpovMpOYBCtoT2N9B5uzWG0Zid8gnFrVFEQDtBaUrxEgXBimaEeER2/uIiK4roPOaMRYjBKsFly3fOO3G06dETGCWIsYjckprMphtEKMAQtgsMYi1mJMQHJ6xvkDKQoyphCzkl0AAAAASUVORK5CYII=) }
+                #left-panel div.failure { background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAOCAYAAADwikbvAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sDEBUJOEC5CU8AAAAdaVRYdENvbW1lbnQAAAAAAENyZWF0ZWQgd2l0aCBHSU1QZC5lBwAAAeVJREFUKM+NkDtok2EUhp8vl9ZLo/EyKI6KFgqCKC4OClrBWUQEcRRx1cGpk3WyInWrgoMZKkW8thYaEYQ0i7WC2ngrNDTERHJvkv/L/3//dxwc7F8jeOAsh/c973OOEhG61aPnaen7maXYt4MLZ4+pbppQt+F06jNH3QWOb8pxUs+SmJzjv83hxY8SVy3wNdtVneiHqe54IhLoB4/TUkyMyOrKj5yXoVtPZK02kLyYK7OnlqFWzgcCGtUC/YUJ3n5a/jd28tU7ORTN0myUA6Jms8bpWIa798elqzn1fokjThrpVBC3ETzNbYAuca59j/Hp+b/N869Tsk8tgVMCXQk+RlfQuk1/tMLMwzsSMCcm5zjhvoR2AdpF0GuwO4aqttS05ZSbZHhsBoAIwI83Cdkd/460XDAOG02d24MxvlR8dsUUh3f2UHaEtgdbWCHz4oZwcVCp66PP5FLhKjEc8DXaCMsNy8DYn/SnZ+L0hhWOb/F8yLs9fDtwk8j+VpqwrlC34PrgGEu2bhlYhZ1b8dncq3AMeBaUr/k6NUyk4ChKzu+N2hc6Bqody+WDG8g2fLatD7F3axjPgmvAtYJvIbouhhIRrl0ZktnkBGIt1gqeMXQ8D2MMiCIUCqFEsFhEQMSykCuqX0MzLAUJTzRsAAAAAElFTkSuQmCC) }
+                #left-panel div.detail { display: none }
+                #right-panel { position: absolute; right: 0; top: 0; bottom: 0; left: 301px; overflow: auto; background: white }
+                #right-panel .group { font-size: 12px; font-weight: bold; line-height: 16px; padding: 0 0 0 18px; counter-reset: assertion; background-repeat: repeat-x; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAQCAYAAADXnxW3AAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sDEBUkDq8pxjkAAAAdaVRYdENvbW1lbnQAAAAAAENyZWF0ZWQgd2l0aCBHSU1QZC5lBwAAADdJREFUCNdVxrERwDAMAzGK0v47eS6Z927SpMFBAAbkvSvnRk5+7K5cVfLMyN39bWakJAjA5xw9R94jN3tVhVEAAAAASUVORK5CYII=) }
+                #right-panel .zebra { background-repeat: repeat; padding: 0 0 0 18px; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAmCAYAAAAFvPEHAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sDEBYWFlNztEcAAAAdaVRYdENvbW1lbnQAAAAAAENyZWF0ZWQgd2l0aCBHSU1QZC5lBwAAABdJREFUCNdjYKAtePv5338mBgYGBpoQAGy1BAJlb/y6AAAAAElFTkSuQmCC) }
+                #right-panel .data { line-height: 19px; white-space: nowrap }
+                #right-panel pre.data { white-space: pre }
+                #right-panel tbody.failure { color: red }
+                #right-panel td.key { min-width: 108px }
+                #right-panel td.delimiter { min-width: 18px }
+                #right-panel td.assertion:before { counter-increment: assertion; content: counter(assertion) ". " }
+                #right-panel td.assertion { color: black }
+                #right-panel .trail { border-top: 1px solid #b4b4b4 }
+				
+				<!--JSON响应值格式化所用样式 -->
+				div.ControlsRow, div.HeadersRow {font-family: Georgia;}
+				div.Canvas{font-family: Lucida Console, Georgia;font-size: 13px;background-color:#ECECEC;color:#000000;border:solid 1px #CECECE;}
+				.ObjectBrace{color:#00AA00;font-weight:bold;}
+				.ArrayBrace{color:#0033FF;font-weight:bold;}
+				.PropertyName{color:#CC0000;font-weight:bold;}
+				.String{color:#007777;}
+				.Number{color:#AA00AA;}
+				.Boolean{color:#0000FF;}
+				.Function{color:#AA6633;text-decoration:italic;}
+				.Null{color:#0000FF;}
+				.Comma{color:#000000;font-weight:bold;}
+				PRE.CodeContainer{margin-top:0px;margin-bottom:0px;}
+				PRE.CodeContainer img{cursor:pointer;border:none;margin-bottom:-1px;}
+				#CollapsibleViewDetail a{padding-left:10px;}
+				#ControlsRow{white-space:nowrap;font: 11px Georgia;}
+				#TabSizeHolder{padding-left:10px;padding-right:10px;}
+				#HeaderTitle{text-align:right;font-size:11px;}
+				#HeaderSubTitle{margin-bottom:2px;margin-top:0px}
+				A.OtherToolsLink {color:#555;text-decoration:none;}
+				A.OtherToolsLink:hover {text-decoration:underline;}	
+				#alldata {table-layout:fixed;empty-cells:show;border-collapse: collapse;margin:0 auto;font-size:12px;border:1px solid #cad9ea;color:#4f6b72;}
+				#alldata th{background-repeat:repeat-x;height:30px;border:1px solid #cad9ea;background-color:#EDF3FE;}
+				#alldata td{border:1px solid #cad9ea;padding:0 1em 0;}
+				#alldata2 {table-layout:fixed;empty-cells:show;border-collapse: collapse;margin:0 auto;font-size:12px;border:1px solid #cad9ea;color:#4f6b72;}
+				#alldata2 th{background-repeat:repeat-x;height:30px;border:1px solid #cad9ea;}
+				#alldata2 td{border:1px solid #cad9ea;padding:0 1em 0;}
+				#alldata2 tr:nth-child(even){background-color:#EDF3FE;}
+				
+                
+            </style><script type="text/javascript">
+            
+                var onclick_li = (function() {
+                    var last_selected = null;
+                    return function(li, index) {
+						Process(index);
+                        if( last_selected == li )
+                            return;
+                        if( last_selected )
+                            last_selected.className = "";
+                        last_selected = li;
+                        last_selected.className = "selected";
+                        document.getElementById("right-panel").innerHTML = last_selected.firstChild.nextSibling.innerHTML;
+                        return false;
+                    };
+                })();
+                
+                var patch_timestamp = function() {
+                    var spans = document.getElementsByTagName("span");
+                    var len = spans.length;
+                    for( var i = 0; i < len; ++i ) {
+                        var span = spans[i];
+                        if( "patch_timestamp" == span.className )
+                            span.innerHTML = new Date( parseInt( span.innerHTML ) );
+                    }
+                };
+                
+                var patch_navigation_class = (function() {
+                
+                    var set_class = function(el, flag) {
+                        if(el) {
+                            el.className += flag ? " success" : " failure";
+                        }
+                    };
+                
+                    var traverse = function(el, group_el, flag) {
+                        while(1) {
+                            if(el) {
+                                if(el.className == 'navigation') {
+                                    set_class(group_el, flag);
+                                    group_el = el;
+                                    flag = true;
+                                } else {
+                                    var o = el.firstChild;
+                                    o = o ? o.className : null;
+                                    flag = flag ? (o == 'success') : false;
+                                }
+                                el = el.nextSibling;
+                            } else {
+                                set_class(group_el, flag);
+                                break;
+                            }
+                        }
+                    };
+                    
+                    return function() {
+                        var o = document.getElementById("result-list");
+                        o = o ? o.firstChild : null;
+                        if(o)
+                            traverse(o, null, true);
+                    };
+                })();
+        
+                window.onload = function() {
+                    patch_timestamp();
+                    patch_navigation_class();
+                    var o = document.getElementById("result-all");
+                    o = o ? o.firstChild : null;
+                    o = o ? o.nextSibling : null;
+                    if(o)
+                        onclick_li(o, 1);
+                };
+				
+				
+				//JSON 格式化引用的js
+				window.SINGLE_TAB = "  ";
+				window.QuoteKeys = true;
+				function $id(id){ return document.getElementById(id); }
+				function IsArray(obj) {
+				  return  obj && 
+						  typeof obj === 'object' && 
+						  typeof obj.length === 'number' &&
+						  !(obj.propertyIsEnumerable('length'));
+				}
+
+				function Process(index){
+				  SetTab();
+				  window.IsCollapsible = false;
+				  debugger;
+				  if (!index){
+					return false;
+				  }  
+				  var json = $id("RawJson" + index).textContent;
+				  
+				  var html = "";
+				  try{
+					if(json == "") json = "\"\"";
+					var obj = eval("["+json+"]");
+					html = ProcessObject(obj[0], 0, false, false, false);
+					$id("Canvas" + index).innerHTML = "<PRE class='CodeContainer'>"+html+"</PRE>";
+				  }catch(e){
+					//alert("JSON数据格式不正确:\n"+e.message);
+					$id("Canvas" + index).innerHTML = "not Json Data";
+				  }
+				}
+				window._dateObj = new Date();
+				window._regexpObj = new RegExp();
+				function ProcessObject(obj, indent, addComma, isArray, isPropertyContent){
+
+				  var html = "";
+				  var comma = (addComma) ? "<span class='Comma'>,</span> " : ""; 
+				  var type = typeof obj;
+				  var clpsHtml ="";
+				  if(IsArray(obj)){
+					if(obj.length == 0){
+					  html += GetRow(indent, "<span class='ArrayBrace'>[ ]</span>"+comma, isPropertyContent);
+					}else{
+					  clpsHtml = window.IsCollapsible ? "<span><img src=\""+window.ImgExpanded+"\" onClick=\"ExpImgClicked(this)\" /></span><span class='collapsible'>" : "";
+					  html += GetRow(indent, "<span class='ArrayBrace'>[</span>"+clpsHtml, isPropertyContent);
+					  for(var i = 0; i < obj.length; i++){
+						html += ProcessObject(obj[i], indent + 1, i < (obj.length - 1), true, false);
+					  }
+					  clpsHtml = window.IsCollapsible ? "</span>" : "";
+					  html += GetRow(indent, clpsHtml+"<span class='ArrayBrace'>]</span>"+comma);
+					}
+				  }else if(type == 'object'){
+					if (obj == null){
+						html += FormatLiteral("null", "", comma, indent, isArray, "Null");
+					}else if (obj.constructor == window._dateObj.constructor) { 
+						html += FormatLiteral("new Date(" + obj.getTime() + ") /*" + obj.toLocaleString()+"*/", "", comma, indent, isArray, "Date"); 
+					}else if (obj.constructor == window._regexpObj.constructor) {
+						html += FormatLiteral("new RegExp(" + obj + ")", "", comma, indent, isArray, "RegExp"); 
+					}else{
+					  var numProps = 0;
+					  for(var prop in obj) numProps++;
+					  if(numProps == 0){
+						html += GetRow(indent, "<span class='ObjectBrace'>{ }</span>"+comma, isPropertyContent);
+					  }else{
+						clpsHtml = window.IsCollapsible ? "<span><img src=\""+window.ImgExpanded+"\" onClick=\"ExpImgClicked(this)\" /></span><span class='collapsible'>" : "";
+						html += GetRow(indent, "<span class='ObjectBrace'>{</span>"+clpsHtml, isPropertyContent);
+
+						var j = 0;
+
+						for(var prop in obj){
+
+						  var quote = window.QuoteKeys ? "\"" : "";
+
+						  html += GetRow(indent + 1, "<span class='PropertyName'>"+quote+prop+quote+"</span>: "+ProcessObject(obj[prop], indent + 1, ++j < numProps, false, true));
+
+						}
+
+						clpsHtml = window.IsCollapsible ? "</span>" : "";
+
+						html += GetRow(indent, clpsHtml+"<span class='ObjectBrace'>}</span>"+comma);
+
+					  }
+
+					}
+
+				  }else if(type == 'number'){
+
+					html += FormatLiteral(obj, "", comma, indent, isArray, "Number");
+
+				  }else if(type == 'boolean'){
+
+					html += FormatLiteral(obj, "", comma, indent, isArray, "Boolean");
+
+				  }else if(type == 'function'){
+
+					if (obj.constructor == window._regexpObj.constructor) {
+
+						html += FormatLiteral("new RegExp(" + obj + ")", "", comma, indent, isArray, "RegExp"); 
+
+					}else{
+
+						obj = FormatFunction(indent, obj);
+
+						html += FormatLiteral(obj, "", comma, indent, isArray, "Function");
+
+					}
+
+				  }else if(type == 'undefined'){
+
+					html += FormatLiteral("undefined", "", comma, indent, isArray, "Null");
+
+				  }else{
+
+					html += FormatLiteral(obj.toString().split("\\").join("\\\\").split('"').join('\\"'), "\"", comma, indent, isArray, "String");
+
+				  }
+
+				  return html;
+
+				}
+
+				function FormatLiteral(literal, quote, comma, indent, isArray, style){
+
+				  if(typeof literal == 'string')
+					literal = literal.split("<").join("&lt;").split(">").join("&gt;");
+				  var str = "<span class='"+style+"'>"+quote+literal+quote+comma+"</span>";
+				  if(isArray) str = GetRow(indent, str);
+				  return str;
+
+				}
+
+				function FormatFunction(indent, obj){
+				  var tabs = "";
+				  for(var i = 0; i < indent; i++) tabs += window.TAB;
+				  var funcStrArray = obj.toString().split("\n");
+				  var str = "";
+				  for(var i = 0; i < funcStrArray.length; i++){
+					str += ((i==0)?"":tabs) + funcStrArray[i] + "\n";
+				  }
+				  return str;
+				}
+
+				function GetRow(indent, data, isPropertyContent){
+				  var tabs = "";
+				  for(var i = 0; i < indent && !isPropertyContent; i++) tabs += window.TAB;
+				  if(data != null && data.length > 0 && data.charAt(data.length-1) != "\n")
+					data = data+"\n";
+				  return tabs+data;                       
+				}
+
+				function TraverseChildren(element, func, depth){
+				  for(var i = 0; i < element.childNodes.length; i++){
+					TraverseChildren(element.childNodes[i], func, depth + 1);
+				  }
+				  func(element, depth);
+				}
+
+				function SetTab(){
+				  window.TAB = MultiplyString(2, window.SINGLE_TAB);
+				}
+
+				function MultiplyString(num, str){
+				  var sb =[];
+				  for(var i = 0; i < num; i++){
+					sb.push(str);
+				  }
+				  return sb.join("");
+				}
+				
+            </script></head><body><div id="left-panel"><ol id="result-all"><li class="navigation">All Data Summary:</li><li onclick="return onclick_li(this, 1);"><div class="success">Case Results</div><div class="detail"><div class="group">Case Results</div><br><table width="95%" cellspacing="2" cellpadding="5" border="0" align="center" id="alldata"><tr valign="top"><th># Samples</th><th>Failures</th><th>Success Rate</th><th>Average Time</th><th>Min Time</th><th>Max Time</th></tr><tr valign="top" class=""><td align="center">4</td><td align="center">0</td><td align="center">100.00%</td><td align="center">476 ms</td><td align="center">191 ms</td><td align="center">1199 ms</td></tr></table><br><div class="trail"></div><div class="group">Case Details</div><br><table width="95%" cellspacing="2" cellpadding="5" border="0" align="center" id="alldata2"><tr valign="top"><th>URL</th><th># Samples</th><th>Failures</th><th>Success Rate</th><th>Average Time</th><th>Min Time</th><th>Max Time</th></tr><tr valign="top" class=""><td>1-登录接口获取Token</td><td align="center">1</td><td align="center">0</td><td align="center">100.00%</td><td align="center">1199 ms</td><td align="center">1199 ms</td><td align="center">1199 ms</td></tr><tr valign="top" class=""><td>2-客户列表接口</td><td align="center">1</td><td align="center">0</td><td align="center">100.00%</td><td align="center">253 ms</td><td align="center">253 ms</td><td align="center">253 ms</td></tr><tr valign="top" class=""><td>3-获取质检规则列表</td><td align="center">1</td><td align="center">0</td><td align="center">100.00%</td><td align="center">191 ms</td><td align="center">191 ms</td><td align="center">191 ms</td></tr><tr valign="top" class=""><td>4-下架质检规则</td><td align="center">1</td><td align="center">0</td><td align="center">100.00%</td><td align="center">263 ms</td><td align="center">263 ms</td><td align="center">263 ms</td></tr></table></div></li></ol><ol id="result-list"><li class="navigation">Thread: Ford Smart Badge API测试 1-1</li><li onclick="return onclick_li(this, 1);"><div class="success">1-登录接口获取Token</div><div class="detail"><div class="group">Sampler</div><div class="zebra"><table><tr><td class="data key">Thread Name</td><td class="data delimiter">:</td><td class="data">Ford Smart Badge API测试 1-1</td></tr><tr><td class="data key">Timestamp</td><td class="data delimiter">:</td><td class="data"><span class="patch_timestamp">1755770452759</span></td></tr><tr><td class="data key">Time</td><td class="data delimiter">:</td><td class="data">1199 ms</td></tr><tr><td class="data key">Latency</td><td class="data delimiter">:</td><td class="data">1195 ms</td></tr><tr><td class="data key">Bytes</td><td class="data delimiter">:</td><td class="data">1075</td></tr><tr><td class="data key">Sample Count</td><td class="data delimiter">:</td><td class="data"></td></tr><tr><td class="data key">Error Count</td><td class="data delimiter">:</td><td class="data"></td></tr><tr><td class="data key">Response Code</td><td class="data delimiter">:</td><td class="data">200</td></tr><tr><td class="data key">Response Message</td><td class="data delimiter">:</td><td class="data">OK</td></tr></table></div><div class="trail"></div><div class="group">Assertion</div><div class="zebra"><table><tbody class=""><tr><td colspan="3" class="data assertion">登录成功断言</td></tr><tr><td class="data key">Failure</td><td class="data delimiter">:</td><td class="data">false</td></tr><tr><td class="data key">Error</td><td class="data delimiter">:</td><td class="data">false</td></tr><tr><td class="data key">Failure Message</td><td class="data delimiter">:</td><td class="data"></td></tr></tbody><tbody class=""><tr><td colspan="3" class="data assertion">验证HTTP状态码</td></tr><tr><td class="data key">Failure</td><td class="data delimiter">:</td><td class="data">false</td></tr><tr><td class="data key">Error</td><td class="data delimiter">:</td><td class="data">false</td></tr><tr><td class="data key">Failure Message</td><td class="data delimiter">:</td><td class="data"></td></tr></tbody></table></div><div class="trail"></div><div class="group">Request</div><div class="zebra"><table><tr><td class="data key">Method/Url</td><td class="data delimiter">:</td><td class="data"><pre class="data">POST https://ford-smart-badage.proxy.i-driven.com.cn/backend/auth/login</pre></td></tr><tr><td class="data key">Query String</td><td class="data delimiter">:</td><td class="data"><pre class="data">{"username":"admin","password":"9!1w&amp;flQf#Vw","code":"1","uuid":"19ab77713c7444d7a8db63951aacf9d9","loginType":"PC"}</pre></td></tr><tr><td class="data key">Cookies</td><td class="data delimiter">:</td><td class="data"><pre class="data"></pre></td></tr><tr><td class="data key">Request Headers</td><td class="data delimiter">:</td><td class="data"><pre class="data">Connection: keep-alive
+Content-Type: application/json
+Accept: application/json
+User-Agent: JMeter-AutoTest/5.4.3
+Content-Length: 116
+Host: ford-smart-badage.proxy.i-driven.com.cn
+</pre></td></tr></table></div><div class="trail"></div><div class="group">Response</div><div class="zebra"><table><tr><td class="data key">Response Headers</td><td class="data delimiter">:</td><td class="data"><pre class="data">HTTP/1.1 200 OK
+Server: openresty
+Date: Thu, 21 Aug 2025 10:00:53 GMT
+Content-Type: application/json
+Transfer-Encoding: chunked
+Connection: keep-alive
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Headers: DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type, X-Custom-Header, Access-Control-Expose-Headers, Token, Authorization
+Access-Control-Allow-Headers: *
+Access-Control-Allow-Methods: GET, POST, PATCH, DELETE, PUT, OPTIONS
+Access-Control-Allow-Origin: *
+Access-Control-Max-Age: 1728000
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Methods: GET, POST, PATCH, DELETE, PUT, OPTIONS
+Access-Control-Allow-Headers: *
+Access-Control-Max-Age: 1728000
+</pre></td></tr><tr><td class="data key">Response Data</td><td class="data delimiter">:</td><td class="data"><pre class="data" id="RawJson1">{"code":200,"msg":null,"data":{"access_token":"eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX2tleSI6IjFhOTVjZTAxLWEzMjQtNDEwNS1iOTBjLWJjZmU0MTM5ODAzMyIsInVzZXJuYW1lIjoiYWRtaW4ifQ.IKrzQVPTSeWSZX0xM6c-uaXxBkXkVuvQRbR_EP1Zn6etgJ08F4y93F79fh6urEbrJfYMXKuBFtKCQeXoBhyrXw","expires_in":720}}</pre></td></tr><tr><td class="data key">Response File</td><td class="data delimiter">:</td><td class="data"><pre class="data"></pre></td></tr><tr><td class="data key">JSON Data Format</td><td class="data delimiter">:</td><td><div class="Canvas" id="Canvas1"></div></td></tr></table></div><div class="trail"></div></div></li><li onclick="return onclick_li(this, 2);"><div class="success">2-客户列表接口</div><div class="detail"><div class="group">Sampler</div><div class="zebra"><table><tr><td class="data key">Thread Name</td><td class="data delimiter">:</td><td class="data">Ford Smart Badge API测试 1-1</td></tr><tr><td class="data key">Timestamp</td><td class="data delimiter">:</td><td class="data"><span class="patch_timestamp">1755770454010</span></td></tr><tr><td class="data key">Time</td><td class="data delimiter">:</td><td class="data">253 ms</td></tr><tr><td class="data key">Latency</td><td class="data delimiter">:</td><td class="data">253 ms</td></tr><tr><td class="data key">Bytes</td><td class="data delimiter">:</td><td class="data">7346</td></tr><tr><td class="data key">Sample Count</td><td class="data delimiter">:</td><td class="data"></td></tr><tr><td class="data key">Error Count</td><td class="data delimiter">:</td><td class="data"></td></tr><tr><td class="data key">Response Code</td><td class="data delimiter">:</td><td class="data">200</td></tr><tr><td class="data key">Response Message</td><td class="data delimiter">:</td><td class="data">OK</td></tr></table></div><div class="trail"></div><div class="group">Assertion</div><div class="zebra"><table><tbody class=""><tr><td colspan="3" class="data assertion">客户列表响应断言</td></tr><tr><td class="data key">Failure</td><td class="data delimiter">:</td><td class="data">false</td></tr><tr><td class="data key">Error</td><td class="data delimiter">:</td><td class="data">false</td></tr><tr><td class="data key">Failure Message</td><td class="data delimiter">:</td><td class="data"></td></tr></tbody><tbody class=""><tr><td colspan="3" class="data assertion">验证客户列表响应</td></tr><tr><td class="data key">Failure</td><td class="data delimiter">:</td><td class="data">false</td></tr><tr><td class="data key">Error</td><td class="data delimiter">:</td><td class="data">false</td></tr><tr><td class="data key">Failure Message</td><td class="data delimiter">:</td><td class="data"></td></tr></tbody></table></div><div class="trail"></div><div class="group">Request</div><div class="zebra"><table><tr><td class="data key">Method/Url</td><td class="data delimiter">:</td><td class="data"><pre class="data">POST https://ford-smart-badage.proxy.i-driven.com.cn/backend/business/customer/list</pre></td></tr><tr><td class="data key">Query String</td><td class="data delimiter">:</td><td class="data"><pre class="data">{"pageNum":1,"pageSize":10}</pre></td></tr><tr><td class="data key">Cookies</td><td class="data delimiter">:</td><td class="data"><pre class="data"></pre></td></tr><tr><td class="data key">Request Headers</td><td class="data delimiter">:</td><td class="data"><pre class="data">Connection: keep-alive
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX2tleSI6IjFhOTVjZTAxLWEzMjQtNDEwNS1iOTBjLWJjZmU0MTM5ODAzMyIsInVzZXJuYW1lIjoiYWRtaW4ifQ.IKrzQVPTSeWSZX0xM6c-uaXxBkXkVuvQRbR_EP1Zn6etgJ08F4y93F79fh6urEbrJfYMXKuBFtKCQeXoBhyrXw
+Content-Type: application/json
+Accept: application/json
+User-Agent: JMeter-AutoTest/5.4.3
+Content-Length: 27
+Host: ford-smart-badage.proxy.i-driven.com.cn
+</pre></td></tr></table></div><div class="trail"></div><div class="group">Response</div><div class="zebra"><table><tr><td class="data key">Response Headers</td><td class="data delimiter">:</td><td class="data"><pre class="data">HTTP/1.1 200 OK
+Server: openresty
+Date: Thu, 21 Aug 2025 10:00:54 GMT
+Content-Type: application/json
+Transfer-Encoding: chunked
+Connection: keep-alive
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Headers: DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type, X-Custom-Header, Access-Control-Expose-Headers, Token, Authorization
+Access-Control-Allow-Headers: *
+Access-Control-Allow-Methods: GET, POST, PATCH, DELETE, PUT, OPTIONS
+Access-Control-Allow-Origin: *
+Access-Control-Max-Age: 1728000
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Methods: GET, POST, PATCH, DELETE, PUT, OPTIONS
+Access-Control-Allow-Headers: *
+Access-Control-Max-Age: 1728000
+</pre></td></tr><tr><td class="data key">Response Data</td><td class="data delimiter">:</td><td class="data"><pre class="data" id="RawJson2">{"total":437,"rows":[{"createBy":null,"createTime":"2025-08-21 10:38:46","updateBy":"1907516039843201030","updateTime":"2025-08-21 10:38:46","delFlag":"0","id":"758","ucId":764,"customerName":"","customerMobile":"1755743926170","communicationNum":1,"communicationDate":"2025-08-21","rulePivotalScore":"29","riskScoreScore":"0","isBargain":"N","bargainDate":null,"bargainUser":null,"userId":"1907516039843201030","userName":"&aelig;&plusmn;&ordf;&ccedil;&not;&#145;&egrave;&frac12;&copy;","deptName":"&aelig;&#128;&#128;&aring;&#140;&#150;&aring;&#144;&macr;&auml;&cedil;&#154;","lastAudioDate":null,"ucCreateTime":"2025-08-21 10:38:46","salesNoteTag":null,"brandCode":null,"brandName":null,"managerUserId":null,"managerNote":null,"managerNoteDate":null,"isReplenish":null},{"createBy":null,"createTime":"2025-08-20 23:02:41","updateBy":"1907516039843201030","updateTime":"2025-08-20 23:02:41","delFlag":"0","id":"756","ucId":762,"customerName":"&aring;&#141;&#129;&ccedil;&#130;&sup1;&aring;&curren;&#154;","customerMobile":"13505108509","communicationNum":1,"communicationDate":"2025-08-20","rulePivotalScore":"35","riskScoreScore":"0","isBargain":"N","bargainDate":null,"bargainUser":null,"userId":"1907516039843201030","userName":"&aelig;&plusmn;&ordf;&ccedil;&not;&#145;&egrave;&frac12;&copy;","deptName":"&aelig;&#128;&#128;&aring;&#140;&#150;&aring;&#144;&macr;&auml;&cedil;&#154;","lastAudioDate":"2025-07-09 10:17:53","ucCreateTime":"2025-08-20 23:02:41","salesNoteTag":null,"brandCode":null,"brandName":null,"managerUserId":null,"managerNote":null,"managerNoteDate":null,"isReplenish":null},{"createBy":null,"createTime":"2025-08-20 21:04:40","updateBy":"1907516039843201030","updateTime":"2025-08-20 21:04:40","delFlag":"0","id":"755","ucId":761,"customerName":"","customerMobile":"1755695080242","communicationNum":1,"communicationDate":"2025-08-20","rulePivotalScore":"21","riskScoreScore":"0","isBargain":"N","bargainDate":null,"bargainUser":null,"userId":"1907516039843201030","userName":"&aelig;&plusmn;&ordf;&ccedil;&not;&#145;&egrave;&frac12;&copy;","deptName":"&aelig;&#128;&#128;&aring;&#140;&#150;&aring;&#144;&macr;&auml;&cedil;&#154;","lastAudioDate":null,"ucCreateTime":"2025-08-20 21:04:40","salesNoteTag":null,"brandCode":null,"brandName":null,"managerUserId":null,"managerNote":null,"managerNoteDate":null,"isReplenish":null},{"createBy":null,"createTime":"2025-08-20 20:57:58","updateBy":"1907516039843201030","updateTime":"2025-08-20 20:57:58","delFlag":"0","id":"754","ucId":760,"customerName":"","customerMobile":"1755694678494","communicationNum":1,"communicationDate":"2025-08-20","rulePivotalScore":"22","riskScoreScore":"0","isBargain":"N","bargainDate":null,"bargainUser":null,"userId":"1907516039843201030","userName":"&aelig;&plusmn;&ordf;&ccedil;&not;&#145;&egrave;&frac12;&copy;","deptName":"&aelig;&#128;&#128;&aring;&#140;&#150;&aring;&#144;&macr;&auml;&cedil;&#154;","lastAudioDate":null,"ucCreateTime":"2025-08-20 20:57:58","salesNoteTag":null,"brandCode":null,"brandName":null,"managerUserId":null,"managerNote":null,"managerNoteDate":null,"isReplenish":null},{"createBy":null,"createTime":"2025-08-20 20:51:41","updateBy":"1907516039843201030","updateTime":"2025-08-20 20:51:41","delFlag":"0","id":"753","ucId":759,"customerName":"&aelig;&#152;&#142;&aelig;&#152;&#142;","customerMobile":"1755694300734","communicationNum":1,"communicationDate":"2025-08-20","rulePivotalScore":"21","riskScoreScore":"0","isBargain":"N","bargainDate":null,"bargainUser":null,"userId":"1907516039843201030","userName":"&aelig;&plusmn;&ordf;&ccedil;&not;&#145;&egrave;&frac12;&copy;","deptName":"&aelig;&#128;&#128;&aring;&#140;&#150;&aring;&#144;&macr;&auml;&cedil;&#154;","lastAudioDate":null,"ucCreateTime":"2025-08-20 20:51:41","salesNoteTag":null,"brandCode":null,"brandName":null,"managerUserId":null,"managerNote":null,"managerNoteDate":null,"isReplenish":null},{"createBy":null,"createTime":"2025-07-30 11:13:02","updateBy":"1907516039843201030","updateTime":"2025-07-30 11:13:02","delFlag":"0","id":"737","ucId":758,"customerName":"&aring;&#133;&#136;&ccedil;&#148;&#159;","customerMobile":"13567029120","communicationNum":1,"communicationDate":"2025-08-15","rulePivotalScore":"0","riskScoreScore":"0","isBargain":"N","bargainDate":null,"bargainUser":null,"userId":"1907516039843201030","userName":"&aelig;&plusmn;&ordf;&ccedil;&not;&#145;&egrave;&frac12;&copy;","deptName":"&aelig;&#128;&#128;&aring;&#140;&#150;&aring;&#144;&macr;&auml;&cedil;&#154;","lastAudioDate":"2025-08-20 09:15:50","ucCreateTime":"2025-08-15 19:11:51","salesNoteTag":null,"brandCode":null,"brandName":null,"managerUserId":null,"managerNote":null,"managerNoteDate":null,"isReplenish":"Y"},{"createBy":null,"createTime":"2025-07-30 11:13:02","updateBy":"1907516039843201030","updateTime":"2025-07-30 11:13:02","delFlag":"0","id":"737","ucId":743,"customerName":"&aring;&#133;&#136;&ccedil;&#148;&#159;","customerMobile":"13567029120","communicationNum":1,"communicationDate":"2025-07-30","rulePivotalScore":"21","riskScoreScore":"10","isBargain":"N","bargainDate":null,"bargainUser":null,"userId":"1907516039843201030","userName":"&aelig;&plusmn;&ordf;&ccedil;&not;&#145;&egrave;&frac12;&copy;","deptName":"&aelig;&#128;&#128;&aring;&#140;&#150;&aring;&#144;&macr;&auml;&cedil;&#154;","lastAudioDate":"2025-08-20 09:15:50","ucCreateTime":"2025-07-30 11:13:02","salesNoteTag":null,"brandCode":null,"brandName":null,"managerUserId":null,"managerNote":null,"managerNoteDate":null,"isReplenish":"Y"},{"createBy":null,"createTime":"2025-07-30 11:05:02","updateBy":"1907516039843201030","updateTime":"2025-08-18 17:25:57","delFlag":"0","id":"736","ucId":742,"customerName":"&aelig;&#157;&#142;&aring;&#133;&#136;&ccedil;&#148;&#159;&auml;&iquest;&reg;&aelig;&#148;&sup1;","customerMobile":"13855670201","communicationNum":1,"communicationDate":"2025-07-30","rulePivotalScore":"20","riskScoreScore":"0","isBargain":"N","bargainDate":null,"bargainUser":null,"userId":"1907516039843201030","userName":"&aelig;&plusmn;&ordf;&ccedil;&not;&#145;&egrave;&frac12;&copy;","deptName":"&aelig;&#128;&#128;&aring;&#140;&#150;&aring;&#144;&macr;&auml;&cedil;&#154;","lastAudioDate":"2025-07-30 14:05:06","ucCreateTime":"2025-07-30 11:05:02","salesNoteTag":null,"brandCode":null,"brandName":null,"managerUserId":null,"managerNote":null,"managerNoteDate":null,"isReplenish":"Y"},{"createBy":null,"createTime":"2025-07-30 10:57:07","updateBy":"1907516039843201030","updateTime":"2025-07-30 10:57:07","delFlag":"0","id":"735","ucId":741,"customerName":"&aring;&#145;&uml;&aring;&yen;&sup3;&aring;&pound;&laquo;","customerMobile":"13855019803","communicationNum":1,"communicationDate":"2025-07-30","rulePivotalScore":"20","riskScoreScore":"0","isBargain":"N","bargainDate":null,"bargainUser":null,"userId":"1907516039843201030","userName":"&aelig;&plusmn;&ordf;&ccedil;&not;&#145;&egrave;&frac12;&copy;","deptName":"&aelig;&#128;&#128;&aring;&#140;&#150;&aring;&#144;&macr;&auml;&cedil;&#154;","lastAudioDate":"2025-07-30 14:05:34","ucCreateTime":"2025-07-30 10:57:07","salesNoteTag":null,"brandCode":null,"brandName":null,"managerUserId":null,"managerNote":null,"managerNoteDate":null,"isReplenish":"Y"},{"createBy":null,"createTime":"2025-07-30 10:47:48","updateBy":"1907516039843201030","updateTime":"2025-07-30 10:47:48","delFlag":"0","id":"734","ucId":740,"customerName":"&aring;&frac14;&nbsp;&aring;&deg;&#143;&aring;&sect;&#144;","customerMobile":"18887010001","communicationNum":1,"communicationDate":"2025-07-30","rulePivotalScore":"14","riskScoreScore":"0","isBargain":"N","bargainDate":null,"bargainUser":null,"userId":"1907516039843201030","userName":"&aelig;&plusmn;&ordf;&ccedil;&not;&#145;&egrave;&frac12;&copy;","deptName":"&aelig;&#128;&#128;&aring;&#140;&#150;&aring;&#144;&macr;&auml;&cedil;&#154;","lastAudioDate":"2025-07-30 15:40:23","ucCreateTime":"2025-07-30 10:47:48","salesNoteTag":null,"brandCode":null,"brandName":null,"managerUserId":null,"managerNote":null,"managerNoteDate":null,"isReplenish":"Y"}],"code":200,"msg":"&aelig;&#159;&yen;&egrave;&macr;&cent;&aelig;&#136;&#144;&aring;&#138;&#159;"}</pre></td></tr><tr><td class="data key">Response File</td><td class="data delimiter">:</td><td class="data"><pre class="data"></pre></td></tr><tr><td class="data key">JSON Data Format</td><td class="data delimiter">:</td><td><div class="Canvas" id="Canvas2"></div></td></tr></table></div><div class="trail"></div></div></li><li onclick="return onclick_li(this, 3);"><div class="success">3-获取质检规则列表</div><div class="detail"><div class="group">Sampler</div><div class="zebra"><table><tr><td class="data key">Thread Name</td><td class="data delimiter">:</td><td class="data">Ford Smart Badge API测试 1-1</td></tr><tr><td class="data key">Timestamp</td><td class="data delimiter">:</td><td class="data"><span class="patch_timestamp">1755770454270</span></td></tr><tr><td class="data key">Time</td><td class="data delimiter">:</td><td class="data">191 ms</td></tr><tr><td class="data key">Latency</td><td class="data delimiter">:</td><td class="data">190 ms</td></tr><tr><td class="data key">Bytes</td><td class="data delimiter">:</td><td class="data">4271</td></tr><tr><td class="data key">Sample Count</td><td class="data delimiter">:</td><td class="data"></td></tr><tr><td class="data key">Error Count</td><td class="data delimiter">:</td><td class="data"></td></tr><tr><td class="data key">Response Code</td><td class="data delimiter">:</td><td class="data">200</td></tr><tr><td class="data key">Response Message</td><td class="data delimiter">:</td><td class="data">OK</td></tr></table></div><div class="trail"></div><div class="group">Assertion</div><div class="zebra"><table><tbody class=""><tr><td colspan="3" class="data assertion">质检规则列表响应断言</td></tr><tr><td class="data key">Failure</td><td class="data delimiter">:</td><td class="data">false</td></tr><tr><td class="data key">Error</td><td class="data delimiter">:</td><td class="data">false</td></tr><tr><td class="data key">Failure Message</td><td class="data delimiter">:</td><td class="data"></td></tr></tbody><tbody class=""><tr><td colspan="3" class="data assertion">验证质检规则列表响应</td></tr><tr><td class="data key">Failure</td><td class="data delimiter">:</td><td class="data">false</td></tr><tr><td class="data key">Error</td><td class="data delimiter">:</td><td class="data">false</td></tr><tr><td class="data key">Failure Message</td><td class="data delimiter">:</td><td class="data"></td></tr></tbody></table></div><div class="trail"></div><div class="group">Request</div><div class="zebra"><table><tr><td class="data key">Method/Url</td><td class="data delimiter">:</td><td class="data"><pre class="data">GET https://ford-smart-badage.proxy.i-driven.com.cn/backend/business/qualityRule/list?pageNum=1&amp;pageSize=10</pre></td></tr><tr><td class="data key">Query String</td><td class="data delimiter">:</td><td class="data"><pre class="data"></pre></td></tr><tr><td class="data key">Cookies</td><td class="data delimiter">:</td><td class="data"><pre class="data"></pre></td></tr><tr><td class="data key">Request Headers</td><td class="data delimiter">:</td><td class="data"><pre class="data">Connection: keep-alive
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX2tleSI6IjFhOTVjZTAxLWEzMjQtNDEwNS1iOTBjLWJjZmU0MTM5ODAzMyIsInVzZXJuYW1lIjoiYWRtaW4ifQ.IKrzQVPTSeWSZX0xM6c-uaXxBkXkVuvQRbR_EP1Zn6etgJ08F4y93F79fh6urEbrJfYMXKuBFtKCQeXoBhyrXw
+Content-Type: application/json
+Accept: application/json
+User-Agent: JMeter-AutoTest/5.4.3
+Host: ford-smart-badage.proxy.i-driven.com.cn
+</pre></td></tr></table></div><div class="trail"></div><div class="group">Response</div><div class="zebra"><table><tr><td class="data key">Response Headers</td><td class="data delimiter">:</td><td class="data"><pre class="data">HTTP/1.1 200 OK
+Server: openresty
+Date: Thu, 21 Aug 2025 10:00:54 GMT
+Content-Type: application/json
+Transfer-Encoding: chunked
+Connection: keep-alive
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Headers: DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type, X-Custom-Header, Access-Control-Expose-Headers, Token, Authorization
+Access-Control-Allow-Headers: *
+Access-Control-Allow-Methods: GET, POST, PATCH, DELETE, PUT, OPTIONS
+Access-Control-Allow-Origin: *
+Access-Control-Max-Age: 1728000
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Methods: GET, POST, PATCH, DELETE, PUT, OPTIONS
+Access-Control-Allow-Headers: *
+Access-Control-Max-Age: 1728000
+</pre></td></tr><tr><td class="data key">Response Data</td><td class="data delimiter">:</td><td class="data"><pre class="data" id="RawJson3">{"total":6,"rows":[{"createBy":"1","createTime":"2025-04-08 15:05:09","updateBy":"1","updateTime":"2025-08-21 15:17:32","delFlag":"0","id":57,"ruleName":"&eacute;&#148;&#128;&aring;&#148;&reg;&eacute;&iexcl;&frac34;&eacute;&#151;&reg;","ruleState":"n","rulePivotalScore":"100","ruleRiskScore":"100","ancestors":"0,100","isActivity":"N","beginVerbal":"&aring;&#133;&#136;&ccedil;&#148;&#159;/&aring;&yen;&sup3;&aring;&pound;&laquo;&iuml;&frac14;&#140;&aelig;&#130;&uml;&aring;&yen;&frac12;&iuml;&frac14;&#140;&aelig;&not;&cent;&egrave;&iquest;&#142;&aelig;&#157;&yen;&aring;&#136;&deg;&ccedil;&brvbar;&#143;&ccedil;&#137;&sup1;&ccedil;&ordm;&micro;&aelig;&uml;&ordf;&iuml;&frac14;&#136;&ccedil;&raquo;&#143;&eacute;&#148;&#128;&aring;&#149;&#134;&aring;&#144;&#141;&aring;&shy;&#151;&iuml;&frac14;&#137;&ccedil;&ordm;&micro;&auml;&ordm;&laquo;&ccedil;&copy;&ordm;&eacute;&#151;&acute;&iuml;&frac14;&#140;&aelig;&#136;&#145;&aelig;&#152;&macr;&ccedil;&brvbar;&#143;&ccedil;&#137;&sup1;&ccedil;&ordm;&micro;&aelig;&uml;&ordf;&auml;&frac14;&#153;&auml;&frac14;&acute;XX&iuml;&frac14;&#140;&aelig;&#130;&uml;&auml;&sup1;&#159;&aring;&#143;&macr;&auml;&raquo;&yen;&aring;&#143;&laquo;&aelig;&#136;&#145;XX&iuml;&frac14;&#140;&egrave;&macr;&middot;&eacute;&#151;&reg;&aelig;&#130;&uml;&aelig;&#128;&#142;&auml;&sup1;&#136;&ccedil;&sect;&deg;&aring;&#145;&frac14;&iuml;&frac14;&#159;&atilde;&#128;&#130;","endVerbal":"&aelig;&#130;&uml;&aelig;&#133;&cent;&egrave;&micro;&deg;&iuml;&frac14;&#140;&aelig;&#132;&#159;&egrave;&deg;&cent;&aelig;&#130;&uml;&aring;&macr;&sup1;&ccedil;&brvbar;&#143;&ccedil;&#137;&sup1;&ccedil;&ordm;&micro;&aelig;&uml;&ordf;&ccedil;&#154;&#132;&auml;&iquest;&iexcl;&auml;&raquo;&raquo;&aring;&#146;&#140;&aelig;&#148;&macr;&aelig;&#140;&#129;&iuml;&frac14;&#140;&aelig;&#136;&#145;&auml;&raquo;&not;&aring;&deg;&#134;&aelig;&#140;&#129;&ccedil;&raquo;&shy;&auml;&cedil;&ordm;&aelig;&#130;&uml;&aelig;&#143;&#144;&auml;&frac34;&#155;&eacute;&laquo;&#152;&aring;&#147;&#129;&egrave;&acute;&uml;&ccedil;&#154;&#132;&aelig;&#156;&#141;&aring;&#138;&iexcl;&auml;&raquo;&yen;&aring;&#143;&#138;&aring;&#128;&frac14;&aring;&frac34;&#151;&auml;&iquest;&iexcl;&egrave;&micro;&#150;&ccedil;&#154;&#132;&ccedil;&#148;&uml;&egrave;&frac12;&brvbar;&auml;&frac12;&#147;&eacute;&ordf;&#140;&iuml;&frac14;&#140;&aring;&#144;&#142;&ccedil;&raquo;&shy;&aelig;&#156;&#137;&auml;&raquo;&raquo;&auml;&frac12;&#149;&eacute;&#151;&reg;&eacute;&cent;&#152;&aring;&#146;&#140;&eacute;&#156;&#128;&aelig;&plusmn;&#130;&iuml;&frac14;&#140;&aelig;&#130;&uml;&eacute;&#131;&frac12;&aring;&#143;&macr;&auml;&raquo;&yen;&eacute;&#154;&#143;&aelig;&#151;&para;&auml;&cedil;&#142;&aelig;&#136;&#145;&egrave;&#129;&#148;&ccedil;&sup3;&raquo;&iuml;&frac14;&#140; ","deptIds":"","roleIds":"","validTime":"2025-05-15 00:00:00","loseTime":"2025-05-31 23:59:59"},{"createBy":"1","createTime":"2025-04-21 16:06:36","updateBy":"1","updateTime":"2025-06-20 16:45:15","delFlag":"0","id":59,"ruleName":"&aelig;&#156;&#141;&aring;&#138;&iexcl;&eacute;&iexcl;&frac34;&eacute;&#151;&reg;","ruleState":"y","rulePivotalScore":"100","ruleRiskScore":"90","ancestors":"0,100","isActivity":"N","beginVerbal":"&aelig;&#136;&#145;&aelig;&#152;&macr;&ccedil;&brvbar;&#143;&ccedil;&#137;&sup1;&ccedil;&ordm;&micro;&aelig;&uml;&ordf;&aelig;&#156;&#141;&aring;&#138;&iexcl;&eacute;&iexcl;&frac34;&eacute;&#151;&reg;&aring;&frac14;&nbsp;&auml;&cedil;&#137;&iuml;&frac14;&#140;&egrave;&iquest;&#153;&aelig;&#152;&macr;&aelig;&#136;&#145;&ccedil;&#154;&#132;&aring;&#144;&#141;&ccedil;&#137;&#135;","endVerbal":"&egrave;&iquest;&#153;&aelig;&#152;&macr;&aelig;&#130;&uml;&aelig;&#156;&not;&aelig;&not;&iexcl;&ccedil;&raquo;&acute;&auml;&iquest;&reg;&auml;&iquest;&#157;&aring;&#133;&raquo;&ccedil;&#154;&#132;&aring;&#141;&#149;&aelig;&#141;&reg;&iuml;&frac14;&#140;&egrave;&macr;&middot;&aelig;&#130;&uml;&ccedil;&shy;&frac34;&aring;&shy;&#151;&ccedil;&iexcl;&reg;&egrave;&reg;&curren;&iuml;&frac14;&#140;&egrave;&deg;&cent;&egrave;&deg;&cent;","deptIds":"","roleIds":"","validTime":"2025-05-08 00:00:00","loseTime":"2025-05-31 23:59:59"},{"createBy":"1","createTime":"2025-05-08 22:12:39","updateBy":"1","updateTime":"2025-06-20 16:45:17","delFlag":"0","id":77,"ruleName":"&aelig;&#148;&sup1;&egrave;&pound;&#133;","ruleState":"y","rulePivotalScore":"17","ruleRiskScore":"9","ancestors":"0,100","isActivity":"N","beginVerbal":"&aelig;&not;&cent;&egrave;&iquest;&#142;&aelig;&#157;&yen;&aring;&#136;&deg;&ccedil;&brvbar;&#143;&ccedil;&#137;&sup1;&ccedil;&ordm;&micro;&aelig;&uml;&ordf;&aelig;&#148;&sup1;&egrave;&pound;&#133;&auml;&cedil;&#150;&ccedil;&#149;&#140;&iuml;&frac14;&#140;&aring;&curren;&sect;&aring;&reg;&para;&auml;&cedil;&#128;&egrave;&micro;&middot;&ccedil;&#142;&copy;&auml;&cedil;&#128;&egrave;&micro;&middot;&eacute;&#135;&#142;&iuml;&frac14;&#129;","endVerbal":"&eacute;&#157;&#158;&aring;&cedil;&cedil;&eacute;&laquo;&#152;&aring;&#133;&acute;&aring;&#146;&#140;&aelig;&#130;&uml;&auml;&ordm;&curren;&aelig;&micro;&#129;&iuml;&frac14;&#140;&aelig;&#136;&#145;&auml;&raquo;&not;&aring;&#144;&#142;&ccedil;&raquo;&shy;&auml;&cedil;&#128;&egrave;&micro;&middot;&ccedil;&#142;&copy;&egrave;&frac12;&brvbar;&iuml;&frac14;&#129;","deptIds":"","roleIds":"","validTime":"2025-05-24 22:15:00","loseTime":"2025-05-31 23:59:59"},{"createBy":"1","createTime":"2025-05-12 14:58:59","updateBy":"1","updateTime":"2025-06-20 16:45:19","delFlag":"0","id":80,"ruleName":"&ccedil;&sup2;&frac34;&aring;&#147;&#129;","ruleState":"y","rulePivotalScore":"100","ruleRiskScore":"100","ancestors":"0,100","isActivity":"N","beginVerbal":"&aelig;&#130;&uml;&aring;&yen;&frac12;&iuml;&frac14;&#129;&aelig;&#136;&#145;&aelig;&#152;&macr;&eacute;&#151;&uml;&aring;&ordm;&#151;&ccedil;&sup2;&frac34;&aring;&#147;&#129;&eacute;&#148;&#128;&aring;&#148;&reg;&ccedil;&raquo;&#143;&ccedil;&#144;&#134;XX&iuml;&frac14;&#140;&egrave;&iquest;&#153;&aelig;&#152;&macr;&aelig;&#136;&#145;&auml;&raquo;&not;&ccedil;&#154;&#132;&ccedil;&sup2;&frac34;&aring;&#147;&#129;&aring;&plusmn;&#149;&ccedil;&curren;&ordm;&aring;&#140;&ordm;&iuml;&frac14;&#140;&aelig;&#136;&#145;&auml;&raquo;&not;&ccedil;&#154;&#132;&auml;&ordm;&sect;&aring;&#147;&#129;&eacute;&#131;&frac12;&aelig;&#152;&macr;&aelig;&nbsp;&sup1;&aelig;&#141;&reg;&aelig;&#136;&middot;&aring;&curren;&#150;&egrave;&para;&#138;&eacute;&#135;&#142;&aring;&#156;&ordm;&aelig;&#153;&macr;&aring;&#140;&#150;&aring;&frac14;&#128;&aring;&#143;&#145;&ccedil;&#154;&#132;&iuml;&frac14;&#140;&aelig;&macr;&#148;&aring;&brvbar;&#130;&iuml;&frac14;&#154;&aelig;&#136;&middot;&aring;&curren;&#150;&aelig;&#156;&#141;&eacute;&yen;&deg;&atilde;&#128;&#129;&aelig;&#136;&middot;&aring;&curren;&#150;&ccedil;&#148;&micro;&aelig;&ordm;&#144;&atilde;&#128;&#129;&egrave;&iquest;&#144;&aring;&#138;&uml;&ccedil;&#155;&cedil;&aelig;&#156;&ordm;&atilde;&#128;&#129;&egrave;&frac12;&brvbar;&egrave;&frac12;&frac12;&ccedil;&#148;&uml;&aring;&#147;&#129;&ccedil;&shy;&#137;&iuml;&frac14;&#140;&egrave;&iquest;&#152;&aelig;&#156;&#137;&aring;&frac34;&#136;&aring;&curren;&#154;&ccedil;&brvbar;&#143;&ccedil;&#137;&sup1;&ccedil;&ordm;&micro;&aelig;&uml;&ordf;&egrave;&frac12;&brvbar;&aring;&#158;&#139;&aring;&reg;&#154;&aring;&#136;&para;&aelig;&not;&frac34;&ccedil;&sup2;&frac34;&aring;&#147;&#129;&iuml;&frac14;&#140;&eacute;&#157;&#158;&aring;&cedil;&cedil;&aring;&#143;&#151;&egrave;&frac12;&brvbar;&auml;&cedil;&raquo;&aelig;&not;&cent;&egrave;&iquest;&#142;&iuml;&frac14;&#129;&auml;&sup1;&#159;&aelig;&not;&cent;&egrave;&iquest;&#142;&aelig;&#130;&uml;&aring;&#156;&uml;&aring;&ordm;&#151;&eacute;&#135;&#140;&egrave;&macr;&#149;&ccedil;&copy;&iquest;&aring;&#146;&#140;&auml;&frac12;&#147;&eacute;&ordf;&#140;&atilde;&#128;&#130;","endVerbal":"&aelig;&#132;&#159;&egrave;&deg;&cent;&aelig;&#130;&uml;&aring;&macr;&sup1;&ccedil;&brvbar;&#143;&ccedil;&#137;&sup1;&ccedil;&ordm;&micro;&aelig;&uml;&ordf;&ccedil;&#154;&#132;&auml;&iquest;&iexcl;&auml;&raquo;&raquo;&auml;&cedil;&#142;&aelig;&#148;&macr;&aelig;&#140;&#129;&iuml;&frac14;&#140;&aelig;&#136;&#145;&auml;&raquo;&not;&aring;&deg;&#134;&aelig;&#140;&#129;&ccedil;&raquo;&shy;&auml;&cedil;&ordm;&aelig;&#130;&uml;&aelig;&#143;&#144;&auml;&frac34;&#155;&eacute;&laquo;&#152;&aring;&#147;&#129;&egrave;&acute;&uml;&ccedil;&#154;&#132;&aelig;&#156;&#141;&aring;&#138;&iexcl;&auml;&raquo;&yen;&aring;&#143;&#138;&aring;&#128;&frac14;&aring;&frac34;&#151;&auml;&iquest;&iexcl;&egrave;&micro;&#150;&ccedil;&#154;&#132;&aring;&#149;&#134;&aring;&#147;&#129;&iuml;&frac14;&#140;&aring;&#144;&#142;&ccedil;&raquo;&shy;&aelig;&#156;&#137;&auml;&raquo;&raquo;&auml;&frac12;&#149;&eacute;&#151;&reg;&eacute;&cent;&#152;&aring;&#146;&#140;&eacute;&#156;&#128;&aelig;&plusmn;&#130;&iuml;&frac14;&#140;&aelig;&#130;&uml;&eacute;&#131;&frac12;&aring;&#143;&macr;&auml;&raquo;&yen;&eacute;&#154;&#143;&aelig;&#151;&para;&auml;&cedil;&#142;&aelig;&#136;&#145;&egrave;&#129;&#148;&ccedil;&sup3;&raquo;&iuml;&frac14;&#140;&aelig;&#136;&#145;&eacute;&#131;&frac12;&aring;&deg;&#134;&aring;&deg;&frac12;&aelig;&#156;&#128;&aring;&curren;&sect;&aring;&#138;&ordf;&aring;&#138;&#155;&auml;&cedil;&ordm;&aelig;&#130;&uml;&egrave;&sect;&pound;&aring;&#134;&sup3;","deptIds":"","roleIds":"","validTime":"2025-05-11 00:00:00","loseTime":"2025-05-28 23:59:59"},{"createBy":"1","createTime":"2025-06-04 14:25:14","updateBy":"1","updateTime":"2025-06-04 20:20:01","delFlag":"0","id":90,"ruleName":"&aelig;&micro;&#139;&egrave;&macr;&#149;&aelig;&#150;&deg;&ccedil;&#154;&#132;&egrave;&sect;&#132;&aring;&#136;&#153;","ruleState":"n","rulePivotalScore":"100","ruleRiskScore":"0","ancestors":"0,100","isActivity":"Y","beginVerbal":"&aring;&#149;&brvbar;&aring;&#149;&brvbar;&aring;&#149;&brvbar;&aring;&#149;&brvbar;","endVerbal":"&aring;&#149;&brvbar;&aring;&#149;&brvbar;&aring;&#149;&brvbar;&aring;&#149;&brvbar;","deptIds":"100","roleIds":"2,117,118,119,120","validTime":"2025-06-04 14:25:21","loseTime":"2025-06-04 14:45:00"},{"createBy":"1","createTime":"2025-06-20 18:17:48","updateBy":"1","updateTime":"2025-06-20 18:19:11","delFlag":"0","id":91,"ruleName":"&egrave;&#144;&uml;&eacute;&iexcl;&para;&eacute;&iexcl;&para;&aelig;&#146;&#146;","ruleState":"y","rulePivotalScore":"17","ruleRiskScore":"0","ancestors":"0,100","isActivity":"N","beginVerbal":"&eacute;&#135;&#141;&aelig;&#150;&deg;&aring;&#135;&ordm;&ccedil;&#142;&deg;&aring;&#156;&uml;","endVerbal":"&aring;&#135;&ordm;&ccedil;&#142;&deg;&aring;&#156;&uml;&ccedil;&#142;&deg;&aring;&#156;&uml;","deptIds":"","roleIds":"","validTime":null,"loseTime":null}],"code":200,"msg":"&aelig;&#159;&yen;&egrave;&macr;&cent;&aelig;&#136;&#144;&aring;&#138;&#159;"}</pre></td></tr><tr><td class="data key">Response File</td><td class="data delimiter">:</td><td class="data"><pre class="data"></pre></td></tr><tr><td class="data key">JSON Data Format</td><td class="data delimiter">:</td><td><div class="Canvas" id="Canvas3"></div></td></tr></table></div><div class="trail"></div></div></li><li onclick="return onclick_li(this, 4);"><div class="success">4-下架质检规则</div><div class="detail"><div class="group">Sampler</div><div class="zebra"><table><tr><td class="data key">Thread Name</td><td class="data delimiter">:</td><td class="data">Ford Smart Badge API测试 1-1</td></tr><tr><td class="data key">Timestamp</td><td class="data delimiter">:</td><td class="data"><span class="patch_timestamp">1755770454486</span></td></tr><tr><td class="data key">Time</td><td class="data delimiter">:</td><td class="data">263 ms</td></tr><tr><td class="data key">Latency</td><td class="data delimiter">:</td><td class="data">263 ms</td></tr><tr><td class="data key">Bytes</td><td class="data delimiter">:</td><td class="data">822</td></tr><tr><td class="data key">Sample Count</td><td class="data delimiter">:</td><td class="data"></td></tr><tr><td class="data key">Error Count</td><td class="data delimiter">:</td><td class="data"></td></tr><tr><td class="data key">Response Code</td><td class="data delimiter">:</td><td class="data">200</td></tr><tr><td class="data key">Response Message</td><td class="data delimiter">:</td><td class="data">OK</td></tr></table></div><div class="trail"></div><div class="group">Assertion</div><div class="zebra"><table><tbody class=""><tr><td colspan="3" class="data assertion">下架质检规则响应断言</td></tr><tr><td class="data key">Failure</td><td class="data delimiter">:</td><td class="data">false</td></tr><tr><td class="data key">Error</td><td class="data delimiter">:</td><td class="data">false</td></tr><tr><td class="data key">Failure Message</td><td class="data delimiter">:</td><td class="data"></td></tr></tbody><tbody class=""><tr><td colspan="3" class="data assertion">验证下架质检规则响应</td></tr><tr><td class="data key">Failure</td><td class="data delimiter">:</td><td class="data">false</td></tr><tr><td class="data key">Error</td><td class="data delimiter">:</td><td class="data">false</td></tr><tr><td class="data key">Failure Message</td><td class="data delimiter">:</td><td class="data"></td></tr></tbody></table></div><div class="trail"></div><div class="group">Request</div><div class="zebra"><table><tr><td class="data key">Method/Url</td><td class="data delimiter">:</td><td class="data"><pre class="data">PUT https://ford-smart-badage.proxy.i-driven.com.cn/backend/business/qualityRule</pre></td></tr><tr><td class="data key">Query String</td><td class="data delimiter">:</td><td class="data"><pre class="data">{"createBy":"1","createTime":"2025-04-08 15:05:09","updateBy":"1","updateTime":"2025-08-06 17:20:08","delFlag":"0","id":57,"ruleName":"销售顾问","ruleState":"n","rulePivotalScore":"100","ruleRiskScore":"100","ancestors":"0,100","isActivity":"N","beginVerbal":"先生/女士，您好，欢迎来到福特纵横（经销商名字）纵享空间，我是福特纵横伙伴XX，您也可以叫我XX，请问您怎么称呼？。","endVerbal":"您慢走，感谢您对福特纵横的信任和支持，我们将持续为您提供高品质的服务以及值得信赖的用车体验，后续有任何问题和需求，您都可以随时与我联系， ","deptIds":"","roleIds":"","validTime":"","loseTime":""}</pre></td></tr><tr><td class="data key">Cookies</td><td class="data delimiter">:</td><td class="data"><pre class="data"></pre></td></tr><tr><td class="data key">Request Headers</td><td class="data delimiter">:</td><td class="data"><pre class="data">Connection: keep-alive
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX2tleSI6IjFhOTVjZTAxLWEzMjQtNDEwNS1iOTBjLWJjZmU0MTM5ODAzMyIsInVzZXJuYW1lIjoiYWRtaW4ifQ.IKrzQVPTSeWSZX0xM6c-uaXxBkXkVuvQRbR_EP1Zn6etgJ08F4y93F79fh6urEbrJfYMXKuBFtKCQeXoBhyrXw
+Content-Type: application/json
+Accept: application/json
+User-Agent: JMeter-AutoTest/5.4.3
+Content-Length: 705
+Host: ford-smart-badage.proxy.i-driven.com.cn
+</pre></td></tr></table></div><div class="trail"></div><div class="group">Response</div><div class="zebra"><table><tr><td class="data key">Response Headers</td><td class="data delimiter">:</td><td class="data"><pre class="data">HTTP/1.1 200 OK
+Server: openresty
+Date: Thu, 21 Aug 2025 10:00:54 GMT
+Content-Type: application/json
+Transfer-Encoding: chunked
+Connection: keep-alive
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Headers: DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type, X-Custom-Header, Access-Control-Expose-Headers, Token, Authorization
+Access-Control-Allow-Headers: *
+Access-Control-Allow-Methods: GET, POST, PATCH, DELETE, PUT, OPTIONS
+Access-Control-Allow-Origin: *
+Access-Control-Max-Age: 1728000
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Methods: GET, POST, PATCH, DELETE, PUT, OPTIONS
+Access-Control-Allow-Headers: *
+Access-Control-Max-Age: 1728000
+</pre></td></tr><tr><td class="data key">Response Data</td><td class="data delimiter">:</td><td class="data"><pre class="data" id="RawJson4">{"msg":"&aelig;&#147;&#141;&auml;&frac12;&#156;&aelig;&#136;&#144;&aring;&#138;&#159;","code":200}</pre></td></tr><tr><td class="data key">Response File</td><td class="data delimiter">:</td><td class="data"><pre class="data"></pre></td></tr><tr><td class="data key">JSON Data Format</td><td class="data delimiter">:</td><td><div class="Canvas" id="Canvas4"></div></td></tr></table></div><div class="trail"></div></div></li></ol></div><div id="right-panel"></div></body></html>
