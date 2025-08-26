@@ -1,1 +1,0 @@
-56 18 * * * /bin/sh /Users/onion/Desktop/JmeterMac2/test-cron-env.sh >> /Users/onion/Desktop/JmeterMac2/cron-env-test2.log 2>&1

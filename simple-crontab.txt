@@ -1,2 +1,0 @@
-# 简化测试 - 19:00执行
-0 19 * * * /Users/onion/Desktop/JmeterMac2/test-cron-env.sh >> /Users/onion/Desktop/JmeterMac2/cron-env-test.log 2>&1 
