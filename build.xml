@@ -249,32 +249,9 @@
         <echo>包含附件的邮件发送任务完成！</echo>
     </target>
     
-    <!-- ========== 发送邮件任务（兼容旧版本）========== -->
-    <target name="send-email" depends="report" description="发送测试结果邮件（无附件）">
-        <echo>准备发送测试结果邮件...</echo>
-        
-        <!-- 设置邮件相关变量 -->
-        <property name="email.jtl.file" value="${jmeter.result.jtl.dir}/${summary.report.name}.jtl"/>
-        <property name="email.html.file" value="${jmeter.result.html.dir}/${summary.report.name}.html"/>
-        
-        <!-- 检查测试是否成功 -->
-        <condition property="test.status" value="SUCCESS" else="FAILED">
-            <available file="${email.jtl.file}"/>
-        </condition>
-        
-        <!-- 执行邮件发送脚本 -->
-        <echo>发送邮件到: 2335327949@qq.com</echo>
-        <echo>测试状态: ${test.status}</echo>
-        <echo>JTL文件: ${email.jtl.file}</echo>
-        <echo>HTML报告: ${email.html.file}</echo>
-        
-        <exec executable="bash" dir="${basedir}" failonerror="false">
-            <arg value="send-email.sh"/>
-            <arg value="${test.status}"/>
-            <arg value="${email.jtl.file}"/>
-            <arg value="${email.html.file}"/>
-        </exec>
-        
-        <echo>邮件发送任务完成！</echo>
+    <!-- ========== 发送邮件任务（已移除，统一使用带附件版本）========== -->
+    <!-- 注释：为避免重复邮件，已将无附件版本移除，统一使用send-email-with-attachment -->
+    <target name="send-email" depends="send-email-with-attachment" description="发送测试结果邮件（重定向到带附件版本）">
+        <echo>邮件发送已重定向到带附件版本，避免重复发送</echo>
     </target>
 </project>

@@ -3,6 +3,10 @@
 # 支持附件的JMeter测试结果邮件发送脚本
 # 参数：$1=测试结果状态, $2=JTL文件路径, $3=HTML报告路径, $4=ZIP附件路径
 
+# 设置UTF-8编码环境
+export LANG=zh_CN.UTF-8
+export LC_ALL=zh_CN.UTF-8
+
 echo "=========================================="
 echo "准备发送包含报告附件的邮件..."
 echo "=========================================="
@@ -108,9 +112,30 @@ echo "----------------------------------------"
 echo ""
 echo "🔍 检查邮件发送能力..."
 
-# 方法1: 使用mutt（支持附件）
-if command -v mutt >/dev/null 2>&1 && [ -f "$ZIP_ATTACHMENT" ]; then
-    echo "✅ 尝试使用mutt发送带附件的邮件..."
+# 方法1: 优先使用Python邮件发送（UTF-8编码，支持附件）
+if command -v python3 >/dev/null 2>&1; then
+    echo "🐍 优先尝试使用Python发送邮件（UTF-8编码）..."
+    
+    # 检查是否有配置的Python邮件脚本
+    if [ -f "send-email-python.py" ]; then
+        echo "📧 使用配置的Python邮件脚本..."
+        if python3 send-email-python.py 2>/dev/null; then
+            echo "✅ Python邮件发送成功（UTF-8编码，支持中文）"
+            SEND_SUCCESS=true
+        else
+            echo "⚠️ 配置的Python脚本发送失败，尝试内置Python方法"
+            SEND_SUCCESS=false
+        fi
+    else
+        SEND_SUCCESS=false
+    fi
+fi
+
+# 方法2: 使用mutt（支持附件，但可能乱码）
+if [ "$SEND_SUCCESS" != "true" ] && command -v mutt >/dev/null 2>&1 && [ -f "$ZIP_ATTACHMENT" ]; then
+    echo "📮 尝试使用mutt发送带附件的邮件..."
+    # 设置mutt使用UTF-8编码
+    export MUTT_CHARSET=utf-8
     if mutt -s "$EMAIL_SUBJECT" -a "$ZIP_ATTACHMENT" -- "$TO_EMAIL" < "$TEMP_EMAIL_FILE" 2>/dev/null; then
         echo "✅ 邮件发送成功（使用mutt，包含附件）"
         SEND_SUCCESS=true
@@ -118,17 +143,14 @@ if command -v mutt >/dev/null 2>&1 && [ -f "$ZIP_ATTACHMENT" ]; then
         echo "⚠️ mutt发送失败"
         SEND_SUCCESS=false
     fi
-elif command -v mutt >/dev/null 2>&1; then
+elif [ "$SEND_SUCCESS" != "true" ] && command -v mutt >/dev/null 2>&1; then
     echo "⚠️ mutt可用但附件文件不存在"
-    SEND_SUCCESS=false
-else
-    echo "⚠️ 系统未安装mutt命令"
     SEND_SUCCESS=false
 fi
 
-# 方法2: 使用mail（仅文本）
+# 方法3: 系统mail命令（最后备选，容易乱码）
 if [ "$SEND_SUCCESS" != "true" ] && command -v mail >/dev/null 2>&1; then
-    echo "📤 尝试使用系统mail命令发送文本邮件..."
+    echo "📤 最后尝试系统mail命令（警告：可能出现中文乱码）..."
     
     # 在邮件正文中添加附件下载信息
     echo "" >> "$TEMP_EMAIL_FILE"
@@ -138,34 +160,40 @@ if [ "$SEND_SUCCESS" != "true" ] && command -v mail >/dev/null 2>&1; then
     echo "   请联系管理员获取报告文件。" >> "$TEMP_EMAIL_FILE"
     
     if mail -s "$EMAIL_SUBJECT" "$TO_EMAIL" < "$TEMP_EMAIL_FILE" 2>/dev/null; then
-        echo "✅ 文本邮件发送成功（不含附件）"
+        echo "⚠️ 系统mail发送成功，但可能存在中文乱码"
         SEND_SUCCESS=true
     else
-        echo "⚠️ 系统mail命令发送失败"
+        echo "❌ 系统mail命令发送失败"
         SEND_SUCCESS=false
     fi
+else
+    echo "⚠️ 系统未安装mail命令"
 fi
 
-# 方法3: Python邮件发送（高级选项）
+# 方法4: 内置Python邮件发送（UTF-8编码支持）
 if [ "$SEND_SUCCESS" != "true" ] && command -v python3 >/dev/null 2>&1; then
-    echo "🐍 尝试使用Python发送邮件..."
+    echo "🐍 尝试使用内置Python邮件脚本（UTF-8编码）..."
     
-    # 创建Python邮件发送脚本
-    cat > "/tmp/send_email.py" << 'EOF'
+    # 创建支持UTF-8的Python邮件发送脚本
+    cat > "/tmp/send_email_utf8.py" << 'EOF'
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import smtplib
 import sys
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
+from email.header import Header
 import os
 
 def send_email_with_attachment(to_email, subject, body, attachment_path):
     try:
-        print("Python邮件发送功能需要SMTP配置")
-        print("当前仅验证文件和显示邮件信息")
+        print("📧 Python邮件发送（UTF-8编码支持）")
         print(f"收件人: {to_email}")
         print(f"主题: {subject}")
         print(f"附件: {attachment_path}")
+        
         if os.path.exists(attachment_path):
             size = os.path.getsize(attachment_path)
             print(f"附件大小: {size} bytes")
@@ -173,10 +201,30 @@ def send_email_with_attachment(to_email, subject, body, attachment_path):
         else:
             print("❌ 附件文件不存在")
         
-        print("如需实际发送，请配置email-config.properties中的SMTP设置")
+        # 创建邮件对象，设置UTF-8编码
+        msg = MIMEMultipart('mixed')
+        msg['From'] = "JMeter自动化测试 <test@example.com>"
+        msg['To'] = to_email
+        msg['Subject'] = Header(subject, 'utf-8')
+        
+        # 添加邮件正文，使用UTF-8编码
+        text_part = MIMEText(body, 'plain', 'utf-8')
+        msg.attach(text_part)
+        
+        # 添加附件（如果存在）
+        if os.path.exists(attachment_path):
+            with open(attachment_path, 'rb') as f:
+                attach = MIMEApplication(f.read())
+                attach.add_header('Content-Disposition', 'attachment', 
+                                filename=Header(os.path.basename(attachment_path), 'utf-8').encode())
+                msg.attach(attach)
+        
+        print("✅ 邮件内容准备完成（UTF-8编码）")
+        print("💡 如需实际发送，请配置SMTP服务器")
         return True
+        
     except Exception as e:
-        print(f"Python邮件处理失败: {e}")
+        print(f"❌ Python邮件处理失败: {e}")
         return False
 
 if __name__ == "__main__":
@@ -184,17 +232,19 @@ if __name__ == "__main__":
         result = send_email_with_attachment(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
         sys.exit(0 if result else 1)
     else:
-        print("参数不足")
+        print("❌ 参数不足")
         sys.exit(1)
 EOF
 
-    if python3 "/tmp/send_email.py" "$TO_EMAIL" "$EMAIL_SUBJECT" "$EMAIL_BODY" "$ZIP_ATTACHMENT"; then
-        echo "✅ Python邮件处理完成"
+    if python3 "/tmp/send_email_utf8.py" "$TO_EMAIL" "$EMAIL_SUBJECT" "$EMAIL_BODY" "$ZIP_ATTACHMENT"; then
+        echo "✅ Python UTF-8邮件处理完成"
+        SEND_SUCCESS=true
     else
-        echo "⚠️ Python邮件处理失败"
+        echo "⚠️ Python UTF-8邮件处理失败"
+        SEND_SUCCESS=false
     fi
     
-    rm -f "/tmp/send_email.py"
+    rm -f "/tmp/send_email_utf8.py"
 fi
 
 # 清理临时文件

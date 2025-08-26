@@ -111,7 +111,7 @@ def create_email_content(report_name, web_urls):
 
 def send_email(subject, body, attachment_path=None):
     """
-    发送邮件
+    发送邮件（UTF-8编码支持）
     
     Args:
         subject: 邮件主题
@@ -119,13 +119,16 @@ def send_email(subject, body, attachment_path=None):
         attachment_path: 附件路径（可选）
     """
     try:
-        # 创建邮件对象
-        msg = MIMEMultipart()
-        msg['From'] = SENDER_EMAIL
+        # 创建邮件对象，确保UTF-8编码
+        msg = MIMEMultipart('mixed')
+        msg['From'] = f"JMeter自动化测试 <{SENDER_EMAIL}>"
         msg['To'] = RECIPIENT_EMAIL
-        msg['Subject'] = subject
         
-        # 添加邮件正文
+        # 使用Header确保主题的UTF-8编码
+        from email.header import Header
+        msg['Subject'] = Header(subject, 'utf-8')
+        
+        # 添加邮件正文，明确指定UTF-8编码
         msg.attach(MIMEText(body, 'plain', 'utf-8'))
         
         # 添加附件（如果存在）
@@ -135,9 +138,11 @@ def send_email(subject, body, attachment_path=None):
                 part.set_payload(attachment.read())
             
             encoders.encode_base64(part)
+            # 使用Header确保附件文件名的UTF-8编码
+            filename = Header(os.path.basename(attachment_path), 'utf-8').encode()
             part.add_header(
                 'Content-Disposition',
-                f'attachment; filename= {os.path.basename(attachment_path)}'
+                f'attachment; filename={filename}'
             )
             msg.attach(part)
             print(f"✅ 附件已添加: {attachment_path}")
