@@ -32,8 +32,20 @@
     </path>
     
     <!-- ========== 主任务 ========== -->
-    <target name="run" depends="git-update, clean, test, report, package-reports, send-email-with-attachment"
-            description="更新代码 → 清理旧报告 → 执行测试 → 生成报告 → 打包报告 → 发送邮件"/>
+    <target name="run" depends="git-update, clean, test, report, generate-allure-report, package-reports, send-email-with-attachment"
+            description="完整双报告流程：更新代码 → 清理旧报告 → 执行测试 → 生成JMeter报告 → 生成Allure报告 → 打包报告 → 发送邮件"/>
+    
+    <!-- ========== 快速双报告任务 ========== -->
+    <target name="dual-reports" depends="clean, test, report, generate-allure-report"
+            description="快速双报告生成：清理 → 测试 → JMeter报告 → Allure报告"/>
+    
+    <!-- ========== Allure专用任务 ========== -->
+    <target name="run-with-allure" depends="git-update, clean, test, generate-allure-report, package-allure-reports, send-allure-email"
+            description="Allure报告流程：更新代码 → 清理旧报告 → 执行测试 → 生成Allure报告 → 打包Allure报告 → 发送邮件"/>
+    
+    <!-- ========== 仅测试任务 ========== -->
+    <target name="test-only" depends="clean, test"
+            description="仅执行测试，不生成报告"/>
     
     <!-- ========== Git 更新任务 ========== -->
     <target name="git-update" description="从Git仓库拉取最新代码">
@@ -88,14 +100,16 @@
     </target>
     
     <!-- ========== 清理旧报告 ========== -->
-    <target name="clean" description="删除旧的测试报告">
-        <echo>清理旧报告...</echo>
+    <target name="clean" description="删除旧的测试报告和Allure结果">
+        <echo>清理旧报告和Allure结果...</echo>
         <delete dir="${jmeter.result.jtl.dir}"/>
         <delete dir="${jmeter.result.html.dir}"/>
         <delete dir="${jmeter.result.detail.dir}"/>
+        <delete dir="${basedir}/allure-results"/>
         <mkdir dir="${jmeter.result.jtl.dir}"/>
         <mkdir dir="${jmeter.result.html.dir}"/>
         <mkdir dir="${jmeter.result.detail.dir}"/>
+        <mkdir dir="${basedir}/allure-results"/>
     </target>
     
     <!-- ========== 执行 JMeter 测试 ========== -->
@@ -247,6 +261,64 @@
         </exec>
         
         <echo>包含附件的邮件发送任务完成！</echo>
+    </target>
+    
+    <!-- ========== Allure报告生成任务 ========== -->
+    <target name="generate-allure-report" depends="test" description="生成Allure报告">
+        <echo>开始生成Allure报告...</echo>
+        
+        <!-- 执行Allure报告生成脚本 -->
+        <exec executable="bash" dir="${basedir}" failonerror="false">
+            <arg value="generate-allure-report.sh"/>
+        </exec>
+        
+        <echo>Allure报告生成完成！</echo>
+    </target>
+    
+    <!-- ========== 打包Allure报告任务 ========== -->
+    <target name="package-allure-reports" depends="generate-allure-report" description="打包Allure报告为ZIP文件">
+        <echo>开始打包Allure报告...</echo>
+        
+        <!-- 生成时间戳 -->
+        <tstamp>
+            <format property="allure.package.timestamp" pattern="yyyyMMdd_HHmmss" locale="en"/>
+        </tstamp>
+        
+        <!-- 查找最新的Allure报告目录 -->
+        <pathconvert property="allure.latest.report">
+            <first count="1">
+                <sort>
+                    <date/>
+                    <reverse xmlns="antlib:org.apache.tools.ant.types.resources.comparators">
+                        <fileset dir="${basedir}/allure-reports" includes="JMeter_Allure_Report_*" type="dir"/>
+                    </reverse>
+                </sort>
+            </first>
+        </pathconvert>
+        
+        <!-- 设置ZIP文件路径 -->
+        <property name="allure.package.zip.path" value="/tmp/Allure_Report_${allure.package.timestamp}.zip"/>
+        
+        <echo>打包Allure报告: ${allure.latest.report}</echo>
+        <echo>目标ZIP文件: ${allure.package.zip.path}</echo>
+        
+        <echo>Allure报告打包完成: ${allure.package.zip.path}</echo>
+    </target>
+    
+    <!-- ========== 发送Allure邮件任务 ========== -->
+    <target name="send-allure-email" depends="package-allure-reports" description="发送Allure报告邮件">
+        <echo>准备发送Allure报告邮件...</echo>
+        
+        <!-- 执行邮件发送脚本，传递Allure报告相关参数 -->
+        <exec executable="bash" dir="${basedir}" failonerror="false">
+            <arg value="send-email-with-attachment.sh"/>
+            <arg value="SUCCESS"/>
+            <arg value="${jmeter.result.jtl.dir}/${summary.report.name}.jtl"/>
+            <arg value="ALLURE_REPORT"/>
+            <arg value="${allure.package.zip.path}"/>
+        </exec>
+        
+        <echo>Allure报告邮件发送完成！</echo>
     </target>
     
     <!-- ========== 发送邮件任务（已移除，统一使用带附件版本）========== -->

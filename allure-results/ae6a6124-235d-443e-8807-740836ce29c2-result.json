@@ -1,0 +1,59 @@
+{
+  "uuid": "ae6a6124-235d-443e-8807-740836ce29c2",
+  "historyId": "771c9ec24cdd37c6d737755174e42b8a",
+  "name": "1-登录接口获取Token",
+  "fullName": "JMeter.1-登录接口获取Token",
+  "status": "passed",
+  "statusDetails": {},
+  "stage": "finished",
+  "start": 1756533612982,
+  "stop": 1756533614782,
+  "labels": [
+    {
+      "name": "suite",
+      "value": "JMeter Tests"
+    },
+    {
+      "name": "testClass",
+      "value": "JMeter"
+    },
+    {
+      "name": "testMethod",
+      "value": "1-登录接口获取Token"
+    },
+    {
+      "name": "package",
+      "value": "jmeter.tests"
+    },
+    {
+      "name": "framework",
+      "value": "jmeter"
+    }
+  ],
+  "parameters": [],
+  "links": [],
+  "attachments": [],
+  "steps": [
+    {
+      "name": "HTTP Request: 1-登录接口获取Token",
+      "status": "passed",
+      "stage": "finished",
+      "start": 1756533612982,
+      "stop": 1756533614782,
+      "parameters": [
+        {
+          "name": "Response Code",
+          "value": "200"
+        },
+        {
+          "name": "Response Time",
+          "value": "1800ms"
+        },
+        {
+          "name": "Response Message",
+          "value": "OK"
+        }
+      ]
+    }
+  ]
+}

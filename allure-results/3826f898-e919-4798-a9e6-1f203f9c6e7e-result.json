@@ -1,0 +1,59 @@
+{
+  "uuid": "3826f898-e919-4798-a9e6-1f203f9c6e7e",
+  "historyId": "6be205417ebfd899aa89f93c3b55ad48",
+  "name": "3-获取质检规则列表",
+  "fullName": "JMeter.3-获取质检规则列表",
+  "status": "passed",
+  "statusDetails": {},
+  "stage": "finished",
+  "start": 1756533615340,
+  "stop": 1756533615603,
+  "labels": [
+    {
+      "name": "suite",
+      "value": "JMeter Tests"
+    },
+    {
+      "name": "testClass",
+      "value": "JMeter"
+    },
+    {
+      "name": "testMethod",
+      "value": "3-获取质检规则列表"
+    },
+    {
+      "name": "package",
+      "value": "jmeter.tests"
+    },
+    {
+      "name": "framework",
+      "value": "jmeter"
+    }
+  ],
+  "parameters": [],
+  "links": [],
+  "attachments": [],
+  "steps": [
+    {
+      "name": "HTTP Request: 3-获取质检规则列表",
+      "status": "passed",
+      "stage": "finished",
+      "start": 1756533615340,
+      "stop": 1756533615603,
+      "parameters": [
+        {
+          "name": "Response Code",
+          "value": "200"
+        },
+        {
+          "name": "Response Time",
+          "value": "263ms"
+        },
+        {
+          "name": "Response Message",
+          "value": "OK"
+        }
+      ]
+    }
+  ]
+}

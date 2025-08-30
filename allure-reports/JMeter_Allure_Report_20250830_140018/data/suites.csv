@@ -1,0 +1,5 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","263","3-获取质检规则列表","","Sat Aug 30 14:00:15 CST 2025","passed","Sat Aug 30 14:00:15 CST 2025","","JMeter Tests","JMeter","3-获取质检规则列表"
+"","476","2-客户列表接口","","Sat Aug 30 14:00:14 CST 2025","passed","Sat Aug 30 14:00:15 CST 2025","","JMeter Tests","JMeter","2-客户列表接口"
+"","357","4-下架质检规则","","Sat Aug 30 14:00:15 CST 2025","passed","Sat Aug 30 14:00:15 CST 2025","","JMeter Tests","JMeter","4-下架质检规则"
+"","1800","1-登录接口获取Token","","Sat Aug 30 14:00:12 CST 2025","passed","Sat Aug 30 14:00:14 CST 2025","","JMeter Tests","JMeter","1-登录接口获取Token"

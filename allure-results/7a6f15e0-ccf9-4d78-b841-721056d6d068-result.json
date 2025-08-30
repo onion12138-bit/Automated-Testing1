@@ -1,0 +1,59 @@
+{
+  "uuid": "7a6f15e0-ccf9-4d78-b841-721056d6d068",
+  "historyId": "ebae1dfc7f9d6de1ddf6602765ea750d",
+  "name": "2-客户列表接口",
+  "fullName": "JMeter.2-客户列表接口",
+  "status": "passed",
+  "statusDetails": {},
+  "stage": "finished",
+  "start": 1756533614847,
+  "stop": 1756533615323,
+  "labels": [
+    {
+      "name": "suite",
+      "value": "JMeter Tests"
+    },
+    {
+      "name": "testClass",
+      "value": "JMeter"
+    },
+    {
+      "name": "testMethod",
+      "value": "2-客户列表接口"
+    },
+    {
+      "name": "package",
+      "value": "jmeter.tests"
+    },
+    {
+      "name": "framework",
+      "value": "jmeter"
+    }
+  ],
+  "parameters": [],
+  "links": [],
+  "attachments": [],
+  "steps": [
+    {
+      "name": "HTTP Request: 2-客户列表接口",
+      "status": "passed",
+      "stage": "finished",
+      "start": 1756533614847,
+      "stop": 1756533615323,
+      "parameters": [
+        {
+          "name": "Response Code",
+          "value": "200"
+        },
+        {
+          "name": "Response Time",
+          "value": "476ms"
+        },
+        {
+          "name": "Response Message",
+          "value": "OK"
+        }
+      ]
+    }
+  ]
+}
